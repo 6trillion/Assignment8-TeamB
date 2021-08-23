@@ -45,7 +45,7 @@ function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
 
 export default TodoItem;
 
-const ItemWrapper = styled.li`
+export const ItemWrapper = styled.li`
   display: flex;
   line-height: 2rem;
   font-size: 1.4rem;

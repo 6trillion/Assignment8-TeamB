@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-function PlusButton() {
+interface PlusButtonProps {
+  onSubmit: (open: boolean) => void;
+}
+
+const PlusButton: React.FC<PlusButtonProps> = ({ onSubmit }) => {
+  const [open, setOpen] = useState(false);
+
   const handleOnClick = () => {
-    console.log('click');
+    setOpen(!open);
+    onSubmit(open);
   };
   return <Button onClick={handleOnClick}>+</Button>;
-}
+};
 
 export default PlusButton;
 

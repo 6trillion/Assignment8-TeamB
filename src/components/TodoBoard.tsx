@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PlusButton from './PlusButton';
 import TodoItem from './TodoItem';
+import TodoInput from './TodoInput';
 import 'styles/reset.css';
-import { STATUS, TODO_ITEM_LIST } from 'constants/index';
 
 type Itodo = {
   id: number;
@@ -19,14 +19,20 @@ interface TodoBoardProps {
 }
 
 function TodoBoard({ title, todolist }: TodoBoardProps) {
+  const [open, setOpen] = useState(false);
+  const handlePlusBtn = (data: boolean) => {
+    setOpen(data);
+  };
+
   return (
     <BoardWrapper>
       <BoardTitle>
         <BoardItemCount>{todolist.length}</BoardItemCount>
         <BoardTitleText>{title}</BoardTitleText>
-        <PlusButton />
+        <PlusButton onSubmit={handlePlusBtn} />
       </BoardTitle>
       <ItemWrapper>
+        {open && <TodoInput />}
         {todolist.map(todo => (
           <TodoItem
             taskName={todo.taskName}
