@@ -1,4 +1,5 @@
 import Storage from './localStorage';
+import { ITodo } from 'types/index';
 
 enum Locals {
   TODO_LIST = 'todoList',
@@ -11,7 +12,7 @@ export default class Tokens extends Storage<Locals> {
     super();
   }
 
-  public static getInstance() {
+  public static getInstance(): Tokens {
     if (!this.instance) {
       this.instance = new Tokens();
     }
@@ -19,15 +20,15 @@ export default class Tokens extends Storage<Locals> {
     return this.instance;
   }
 
-  public load() {
+  public load(): ITodo[] {
     return this.get(Locals.TODO_LIST);
   }
 
-  public save(accessToken: any) {
+  public save(accessToken: ITodo[]): void {
     this.set(Locals.TODO_LIST, accessToken);
   }
 
-  public clear() {
+  public clear(): void {
     this.clearItem(Locals.TODO_LIST);
   }
 }

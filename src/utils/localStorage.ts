@@ -1,6 +1,8 @@
+import { ITodo } from 'types/index';
+
 interface IStorage {
-  getItem(key: string): any | null;
-  setItem(key: string, value: any): void;
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
   removeItem(key: string): void;
 }
 
@@ -11,12 +13,18 @@ abstract class Storage<T extends string> {
     this.storage = getStorage();
   }
 
-  get(key: T): any | null {
-    return JSON.parse(this.storage.getItem(key));
+  get(key: T): ITodo[] {
+    const item = this.storage.getItem(key);
+
+    if (!item) return [];
+
+    return JSON.parse(item);
   }
-  set(key: T, value: any): void {
+
+  set(key: T, value: ITodo[]): void {
     this.storage.setItem(key, JSON.stringify(value));
   }
+
   clearItem(key: T): void {
     this.storage.removeItem(key);
   }
