@@ -4,18 +4,11 @@ import PlusButton from './PlusButton';
 import TodoItem from './TodoItem';
 import TodoInput from './TodoInput';
 import 'styles/reset.css';
-
-type Itodo = {
-  id: number;
-  taskName: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-};
+import { ITodo } from 'types/index';
 
 interface TodoBoardProps {
   title: string;
-  todolist: Itodo[];
+  todolist: ITodo[];
 }
 
 function TodoBoard({ title, todolist }: TodoBoardProps) {

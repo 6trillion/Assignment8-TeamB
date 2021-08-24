@@ -10,8 +10,8 @@ function App() {
       id: 1,
       taskName: '자소서 쓰기',
       status: 'status.ONGOING',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: '21-08-24',
+      updatedAt: '21-08-25',
       importance: 'none',
     },
   ];

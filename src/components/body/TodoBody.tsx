@@ -16,7 +16,7 @@ function TodoBody() {
       <TodoBoard
         title={TODO_STATUS_TEXT.ON_PROGRESS}
         todolist={TODO_ITEM_LIST.filter(item => item.status === STATUS.ONGOING)}
-      />{' '}
+      />
       <TodoBoard
         title={TODO_STATUS_TEXT.DONE}
         todolist={TODO_ITEM_LIST.filter(
