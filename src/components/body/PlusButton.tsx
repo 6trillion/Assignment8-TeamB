@@ -10,7 +10,7 @@ const PlusButton: React.FC<PlusButtonProps> = ({ onSubmit }) => {
 
   const handleOnClick = () => {
     setOpen(!open);
-    onSubmit(open);
+    onSubmit(!open);
   };
   return <Button onClick={handleOnClick}>+</Button>;
 };

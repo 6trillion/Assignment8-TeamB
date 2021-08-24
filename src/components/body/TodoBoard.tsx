@@ -13,6 +13,7 @@ interface TodoBoardProps {
 
 function TodoBoard({ title, todolist }: TodoBoardProps) {
   const [open, setOpen] = useState(false);
+
   const handlePlusBtn = (data: boolean) => {
     setOpen(data);
   };

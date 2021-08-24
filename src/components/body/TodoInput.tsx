@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import CustomCheckBox from 'components/Form/CustomCheckBox';
 
 function TodoInput() {
+  const [selectedOption, setSelectedOption] = useState('none');
+
+  const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentSelectedId = e.target.id;
+    setSelectedOption(currentSelectedId);
+    console.log(currentSelectedId);
+  };
   return (
     <TodoInputWrapper>
       <CustomInput placeholder="할 일을 입력해주세용" />
+      <CheckBoxWrapper>
+        <CustomCheckBox
+          className="high"
+          labelText="중요해요!"
+          id="high"
+          checked={selectedOption === 'high'}
+          checkHandler={handleCheckEvent}
+        />
+        <CustomCheckBox
+          className="low"
+          labelText="여유있어요"
+          id="low"
+          checked={selectedOption === 'low'}
+          checkHandler={handleCheckEvent}
+        />
+      </CheckBoxWrapper>
       <ButtonWrapper>
         <AddButton>Add</AddButton>
         <CancelButton>Cancel</CancelButton>
@@ -26,6 +50,10 @@ const CustomInput = styled.input`
   height: 6rem;
   border: 1px solid #e6e6e6;
   padding: 0.7rem 1.2rem;
+`;
+
+const CheckBoxWrapper = styled.div`
+  display: flex;
 `;
 
 export const ButtonWrapper = styled.div`
