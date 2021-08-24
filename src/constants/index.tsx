@@ -16,7 +16,7 @@ export const TODO_ITEM_LIST = [
     taskName: '자소서 쓰기',
     status: STATUS.NOT_STARTED,
     createdAt: '2021-02-03',
-    updatedAt: '2021-07-08',
+    updatedAt: '2021-02-03',
     importance: 'none',
   },
   {
@@ -24,7 +24,7 @@ export const TODO_ITEM_LIST = [
     taskName: '할일2',
     status: STATUS.NOT_STARTED,
     createdAt: '2021-03-03',
-    updatedAt: '2021-07-17',
+    updatedAt: '2021-03-03',
     importance: 'high',
   },
   {
@@ -32,7 +32,7 @@ export const TODO_ITEM_LIST = [
     taskName: '할일3',
     status: STATUS.ONGOING,
     createdAt: '2021-04-03',
-    updatedAt: '2021-07-27',
+    updatedAt: '2021-04-03',
     importance: 'low',
   },
   {
@@ -48,7 +48,7 @@ export const TODO_ITEM_LIST = [
     taskName: '할일5',
     status: STATUS.ONGOING,
     createdAt: '2021-06-03',
-    updatedAt: '2021-10-07',
+    updatedAt: '2021-06-20',
     importance: 'high',
   },
 ];
