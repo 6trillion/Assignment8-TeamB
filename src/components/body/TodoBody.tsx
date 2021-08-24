@@ -2,27 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import 'styles/reset.css';
 import TodoBoard from './TodoBoard';
-import { STATUS, TODO_ITEM_LIST } from 'constants/index';
+import { STATUS, TODO_ITEM_LIST, TODO_STATUS_TEXT } from 'constants/index';
 
 function TodoBody() {
-  const TODO = 'TO DO';
-  const ON_PROGRESS = 'On Progress';
-  const DONE = 'DONE';
-
   return (
     <BodyWrapper>
       <TodoBoard
-        title={TODO}
+        title={TODO_STATUS_TEXT.TODO}
         todolist={TODO_ITEM_LIST.filter(
           item => item.status === STATUS.NOT_STARTED,
         )}
       />
       <TodoBoard
-        title={ON_PROGRESS}
+        title={TODO_STATUS_TEXT.ON_PROGRESS}
         todolist={TODO_ITEM_LIST.filter(item => item.status === STATUS.ONGOING)}
       />{' '}
       <TodoBoard
-        title={DONE}
+        title={TODO_STATUS_TEXT.DONE}
         todolist={TODO_ITEM_LIST.filter(
           item => item.status === STATUS.FINISHED,
         )}
