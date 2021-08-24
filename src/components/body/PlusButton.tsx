@@ -3,13 +3,11 @@ import styled from 'styled-components';
 
 interface PlusButtonProps {
   onSubmit: (open: boolean) => void;
+  open: boolean;
 }
 
-const PlusButton: React.FC<PlusButtonProps> = ({ onSubmit }) => {
-  const [open, setOpen] = useState(false);
-
+const PlusButton: React.FC<PlusButtonProps> = ({ onSubmit, open }) => {
   const handleOnClick = () => {
-    setOpen(!open);
     onSubmit(!open);
   };
   return <Button onClick={handleOnClick}>+</Button>;

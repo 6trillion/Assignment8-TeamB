@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 
-function TodoInput() {
+interface TodoInputProps {
+  onSubmit: (open: boolean) => void;
+}
+
+const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
   const [selectedOption, setSelectedOption] = useState('none');
 
   const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,6 +14,17 @@ function TodoInput() {
     setSelectedOption(currentSelectedId);
     console.log(currentSelectedId);
   };
+
+  const handleAddButton = () => {
+    onSubmit(false);
+    // Add 버튼 눌렀을 시 동작
+  };
+
+  const handleCancelButton = () => {
+    // cancel 버튼 눌렀을 시 동작
+    onSubmit(false);
+  };
+
   return (
     <TodoInputWrapper>
       <CustomInput placeholder="할 일을 입력해주세용" autoFocus />
@@ -30,12 +45,12 @@ function TodoInput() {
         />
       </CheckBoxWrapper>
       <ButtonWrapper>
-        <AddButton>Add</AddButton>
-        <CancelButton>Cancel</CancelButton>
+        <AddButton onClick={handleAddButton}>Add</AddButton>
+        <CancelButton onClick={handleCancelButton}>Cancel</CancelButton>
       </ButtonWrapper>
     </TodoInputWrapper>
   );
-}
+};
 
 export default TodoInput;
 
