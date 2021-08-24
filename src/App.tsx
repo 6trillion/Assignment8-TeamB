@@ -1,14 +1,37 @@
 import React from 'react';
-import TodoBody from 'components/TodoBody';
+
+import Tokens from 'utils/Tokens';
+import TodoBody from 'components/body/TodoBody';
 import Header from 'components/header/Header';
-import Space from 'components/header/Space';
 
 function App() {
+  const task = [
+    {
+      id: 1,
+      taskName: '자소서 쓰기',
+      status: 'status.ONGOING',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      importance: 'none',
+    },
+  ];
+
+  const tokens = Tokens.getInstance();
+  tokens.save(task);
+  const accessToken = tokens.load();
+  console.log(accessToken);
+  const HandleClear = () => {
+    tokens.clear();
+  };
+
   return (
-    <div className="App">
-      <Header />
-      <TodoBody />
-    </div>
+    <>
+      <div className="App">
+        <Header />
+        <TodoBody />
+      </div>
+      <button onClick={HandleClear}>지우기</button>
+    </>
   );
 }
 
