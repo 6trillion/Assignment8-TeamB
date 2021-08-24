@@ -37,4 +37,5 @@ const BodyWrapper = styled.div`
   max-width: 100rem;
   display: flex;
   margin: 0 auto;
+  padding-top: 10rem;
 `;

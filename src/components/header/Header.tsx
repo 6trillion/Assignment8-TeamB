@@ -15,9 +15,9 @@ const Header = () => {
 const HeaderLayout = styled.div`
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px 0px;
-  position: fixed;
   display: flex;
   align-items: center;
+  position: fixed;
 `;
 
 const HeaderLayer = styled.div``;
