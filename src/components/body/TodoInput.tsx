@@ -12,7 +12,7 @@ function TodoInput() {
   };
   return (
     <TodoInputWrapper>
-      <CustomInput placeholder="할 일을 입력해주세용" />
+      <CustomInput placeholder="할 일을 입력해주세용" autoFocus />
       <CheckBoxWrapper>
         <CustomCheckBox
           className="high"
@@ -45,11 +45,16 @@ const TodoInputWrapper = styled.div`
   margin: 1.5rem 0;
 `;
 
-const CustomInput = styled.input`
+const CustomInput = styled.textarea`
   width: 100%;
-  height: 6rem;
+  height: 7rem;
+  resize: none;
   border: 1px solid #e6e6e6;
   padding: 0.7rem 1.2rem;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const CheckBoxWrapper = styled.div`
