@@ -35,7 +35,6 @@ export default TodoBody;
 
 const BodyWrapper = styled.div`
   max-width: 100rem;
-  height: 100%;
   display: flex;
   margin: 0 auto;
 `;
