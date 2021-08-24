@@ -28,7 +28,7 @@ const CustomInput = styled.input`
   padding: 0.7rem 1.2rem;
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;

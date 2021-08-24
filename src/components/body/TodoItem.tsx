@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { STATUS } from 'constants/index';
+import TodoSideTab from 'components/body/TodoSideTab';
 
 interface TodoItemProps {
   taskName: string;
@@ -10,6 +11,7 @@ interface TodoItemProps {
 
 function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
   const [statIcon, setStatIcon] = useState('🤍');
+  const [show, setShow] = useState(false);
   useEffect(() => {
     checkStatus();
   }, []);
@@ -31,15 +33,31 @@ function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
     }
   };
 
+  const handleTitleOnClick = () => {
+    setShow(!show);
+  };
+
   return (
-    <ItemWrapper>
-      <ItemStatusIcon>{statIcon}</ItemStatusIcon>
-      <ItemContent>
-        <ItemTitle>{taskName}</ItemTitle>
-        <div>{createdAt}</div>
-        {/* <div>분류</div> */}
-      </ItemContent>
-    </ItemWrapper>
+    <>
+      <ItemWrapper>
+        <ItemStatusIcon>{statIcon}</ItemStatusIcon>
+        <ItemContent>
+          <ItemTitle onClick={handleTitleOnClick}>{taskName}</ItemTitle>
+          <div>{createdAt}</div>
+          {/* <div>분류</div> */}
+        </ItemContent>
+      </ItemWrapper>
+      {show && (
+        <>
+          <TodoSideTab
+            taskName={taskName}
+            status={statIcon}
+            createdAt={createdAt}
+          />
+          <BackGround onClick={handleTitleOnClick}></BackGround>
+        </>
+      )}
+    </>
   );
 }
 
@@ -67,4 +85,15 @@ const ItemContent = styled.div`
 
 const ItemTitle = styled.div`
   font-weight: 600;
+  cursor: pointer;
+`;
+
+const BackGround = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #00000016;
+  z-index: 1;
 `;
