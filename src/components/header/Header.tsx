@@ -4,8 +4,8 @@ const Header = () => {
   return (
     <HeaderLayout>
       <HeaderLayer>
-        <HeaderA href="https://hayanmind.com/">
-          <HeaderImg src="https://hayanmind.com/static/media/HayanMind_Logo.6b1e04b4.svg" />
+        <HeaderA href="https://www.moduparking.com/">
+          <HeaderImg src="https://i0.wp.com/www.moduparking.com/wp-content/uploads/2021/02/cropped-BI_모두의주차장RGB-04.png?fit=1063%2C265&ssl=1" />
         </HeaderA>
       </HeaderLayer>
     </HeaderLayout>
@@ -28,6 +28,7 @@ const HeaderA = styled.a`
 
 const HeaderImg = styled.img`
   padding: 1rem;
+  max-width: 291px;
 `;
 
 export default Header;
