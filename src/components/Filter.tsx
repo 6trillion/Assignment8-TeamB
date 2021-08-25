@@ -2,27 +2,31 @@ import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
-
 import { ReactComponent as FilterSvg } from 'assets/icon/filter.svg';
 import { ReactComponent as CloseSvg } from 'assets/icon/close.svg';
-
-import { date } from 'types/index';
-
+import { date, Importance } from 'types/index';
 import { DATE_FORMAT } from 'constants/index';
 
 interface FilterProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
+  setImportance: Dispatch<SetStateAction<Importance>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 function Filter({
   createdAtPeriod,
   setCreatedAtPeriod,
+  setImportance,
   setIsOpen,
 }: FilterProps): ReactElement {
   const [startDate, setStartDate] = useState<date>(createdAtPeriod[0]);
   const [endDate, setEndDate] = useState<date>(createdAtPeriod[1]);
+  const [radioInputs, setRadioInputs] = useState<Importance>({
+    high: false,
+    low: false,
+    none: false,
+  });
 
   const onStartDateChange = (date: Moment | null) => {
     date ? setStartDate(date.format(DATE_FORMAT)) : setStartDate(null);
@@ -47,6 +51,16 @@ function Filter({
   const onApplyButtonClick = (): void => {
     setCreatedAtPeriod([startDate, endDate]);
     setIsOpen(false);
+    setImportance(radioInputs);
+  };
+
+  const onRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioInputs((prev: Importance) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.checked,
+      };
+    });
   };
 
   return (
@@ -56,6 +70,38 @@ function Filter({
         <div>Filter</div>
         <CloseIcon onClick={() => setIsOpen(false)} />
       </HeaderRow>
+      <TitleRow>
+        <div>중요도</div>
+      </TitleRow>
+      <ImpotantRow>
+        <Row>
+          <div>high</div>
+          <Input
+            type="checkbox"
+            name="high"
+            checked={radioInputs.high}
+            onChange={onRadioChange}
+          />
+        </Row>
+        <Row>
+          <div>low</div>
+          <Input
+            type="checkbox"
+            name="low"
+            checked={radioInputs.low}
+            onChange={onRadioChange}
+          />
+        </Row>
+        <Row>
+          <div>none</div>
+          <Input
+            type="checkbox"
+            name="none"
+            checked={radioInputs.none}
+            onChange={onRadioChange}
+          />
+        </Row>
+      </ImpotantRow>
       <TitleRow>
         <div>생성일</div>
       </TitleRow>
@@ -98,6 +144,14 @@ const FilterWrapper = styled.div`
   flex-direction: column;
 `;
 
+const ImpotantRow = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+`;
+
+const Input = styled.input`
+  margin-left: 10px;
+`;
 const Row = styled.div`
   display: flex;
   align-items: center;
