@@ -6,3 +6,5 @@ export interface ITodo {
   updatedAt: string;
   importance: string;
 }
+
+export type date = string | null;
