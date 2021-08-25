@@ -7,8 +7,20 @@ import { DATE_FORMAT } from 'constants/index';
 
 import { date } from 'types/index';
 
+interface Test {
+  [key: string]: boolean;
+  high: boolean;
+  low: boolean;
+  none: boolean;
+}
+
 function App(): ReactElement {
   const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);
+  const [importance, setImportance] = useState<Test>({
+    high: false,
+    low: false,
+    none: false,
+  });
 
   const createdAtFilter = ({ createdAt }: { createdAt: string }): boolean => {
     const startDate: string = createdAtPeriod[0] ?? '';
@@ -17,13 +29,25 @@ function App(): ReactElement {
     return startDate <= createdAt && createdAt <= endDate;
   };
 
+  const importanceFilter = (todo: any): boolean => {
+    const { high, low, none } = importance;
+
+    if (!high && !low && !none) return true;
+
+    return importance[todo.importance];
+  };
+
   return (
     <>
       <Header
         createdAtPeriod={createdAtPeriod}
         setCreatedAtPeriod={setCreatedAtPeriod}
+        setImportance={setImportance}
       />
-      <TodoBody createdAtFilter={createdAtFilter} />
+      <TodoBody
+        createdAtFilter={createdAtFilter}
+        importanceFilter={importanceFilter}
+      />
     </>
   );
 }

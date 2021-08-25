@@ -6,10 +6,15 @@ import { STATUS, TODO_ITEM_LIST, TODO_STATUS_TEXT } from 'constants/index';
 
 interface TodoBodyProps {
   createdAtFilter: ({ createdAt }: { createdAt: string }) => boolean;
+  importanceFilter: any;
 }
 
-function TodoBody({ createdAtFilter }: TodoBodyProps): ReactElement {
-  const todoList = TODO_ITEM_LIST.filter(createdAtFilter);
+function TodoBody({
+  createdAtFilter,
+  importanceFilter,
+}: TodoBodyProps): ReactElement {
+  const todoList =
+    TODO_ITEM_LIST.filter(createdAtFilter).filter(importanceFilter);
 
   return (
     <BodyWrapper>
