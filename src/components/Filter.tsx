@@ -4,13 +4,13 @@ import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { ReactComponent as FilterSvg } from 'assets/icon/filter.svg';
 import { ReactComponent as CloseSvg } from 'assets/icon/close.svg';
-import { date } from 'types/index';
+import { date, Importance } from 'types/index';
 import { DATE_FORMAT } from 'constants/index';
 
 interface FilterProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
-  setImportance: any;
+  setImportance: Dispatch<SetStateAction<Importance>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -22,7 +22,7 @@ function Filter({
 }: FilterProps): ReactElement {
   const [startDate, setStartDate] = useState<date>(createdAtPeriod[0]);
   const [endDate, setEndDate] = useState<date>(createdAtPeriod[1]);
-  const [radioInputs, setRadioInputs] = useState({
+  const [radioInputs, setRadioInputs] = useState<Importance>({
     high: false,
     low: false,
     none: false,
@@ -54,8 +54,8 @@ function Filter({
     setImportance(radioInputs);
   };
 
-  const onChange = (e: any) => {
-    setRadioInputs((prev: any) => {
+  const onRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioInputs((prev: Importance) => {
       return {
         ...prev,
         [e.target.name]: e.target.checked,
@@ -80,7 +80,7 @@ function Filter({
             type="checkbox"
             name="high"
             checked={radioInputs.high}
-            onChange={onChange}
+            onChange={onRadioChange}
           />
         </Row>
         <Row>
@@ -89,7 +89,7 @@ function Filter({
             type="checkbox"
             name="low"
             checked={radioInputs.low}
-            onChange={onChange}
+            onChange={onRadioChange}
           />
         </Row>
         <Row>
@@ -98,7 +98,7 @@ function Filter({
             type="checkbox"
             name="none"
             checked={radioInputs.none}
-            onChange={onChange}
+            onChange={onRadioChange}
           />
         </Row>
       </ImpotantRow>
