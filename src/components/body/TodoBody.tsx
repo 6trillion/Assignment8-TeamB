@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import 'styles/reset.css';
 import TodoBoard from './TodoBoard';
 import { STATUS, TODO_ITEM_LIST, TODO_STATUS_TEXT } from 'constants/index';
+import { storage } from 'utils/Tokens';
 
 interface TodoBodyProps {
   createdAtFilter: ({ createdAt }: { createdAt: string }) => boolean;
@@ -13,8 +14,11 @@ function TodoBody({
   createdAtFilter,
   importanceFilter,
 }: TodoBodyProps): ReactElement {
-  const todoList =
-    TODO_ITEM_LIST.filter(createdAtFilter).filter(importanceFilter);
+  storage.save(TODO_ITEM_LIST);
+  const todoList = storage
+    .load()
+    .filter(createdAtFilter)
+    .filter(importanceFilter);
 
   return (
     <BodyWrapper>
