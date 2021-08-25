@@ -24,11 +24,13 @@ export default class Tokens extends Storage<Locals> {
     return this.get(Locals.TODO_LIST);
   }
 
-  public save(accessToken: ITodo[]): void {
-    this.set(Locals.TODO_LIST, accessToken);
+  public save(value: ITodo[]): void {
+    this.set(Locals.TODO_LIST, value);
   }
 
   public clear(): void {
     this.clearItem(Locals.TODO_LIST);
   }
 }
+
+export const storage = Tokens.getInstance();
