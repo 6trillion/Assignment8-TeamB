@@ -5,18 +5,11 @@ import Header from 'components/header/Header';
 
 import { DATE_FORMAT } from 'constants/index';
 
-import { date } from 'types/index';
-
-interface Test {
-  [key: string]: boolean;
-  high: boolean;
-  low: boolean;
-  none: boolean;
-}
+import { date, Importance, ITodo } from 'types/index';
 
 function App(): ReactElement {
   const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);
-  const [importance, setImportance] = useState<Test>({
+  const [importance, setImportance] = useState<Importance>({
     high: false,
     low: false,
     none: false,
@@ -29,7 +22,7 @@ function App(): ReactElement {
     return startDate <= createdAt && createdAt <= endDate;
   };
 
-  const importanceFilter = (todo: any): boolean => {
+  const importanceFilter = (todo: ITodo): boolean => {
     const { high, low, none } = importance;
 
     if (!high && !low && !none) return true;

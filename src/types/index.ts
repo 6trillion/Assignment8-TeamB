@@ -8,3 +8,10 @@ export interface ITodo {
 }
 
 export type date = string | null;
+
+export interface Importance {
+  [key: string]: boolean;
+  high: boolean;
+  low: boolean;
+  none: boolean;
+}
