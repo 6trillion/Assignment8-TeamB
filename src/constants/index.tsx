@@ -52,3 +52,5 @@ export const TODO_ITEM_LIST = [
     importance: 'high',
   },
 ];
+
+export const DATE_FORMAT = 'YYYY-MM-DD';

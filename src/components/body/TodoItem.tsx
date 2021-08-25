@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { ReactElement, useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
+import TodoItemDetail from 'components/body/TodoItemDetail';
 
 interface TodoItemProps {
   taskName: string;
@@ -17,7 +18,7 @@ function TodoItem({
   createdAt,
   updatedAt,
   importance,
-}: TodoItemProps) {
+}: TodoItemProps): ReactElement {
   const [statIcon, setStatIcon] = useState('🤍');
   const [importanceIcon, setImportanceIcon] = useState('');
   const [show, setShow] = useState(false);
