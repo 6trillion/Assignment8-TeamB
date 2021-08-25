@@ -74,14 +74,15 @@ function TodoItem({
       </ItemWrapper>
       {show && (
         <>
-          <TodoSideTab
-            taskName={taskName}
-            status={statIcon}
-            createdAt={createdAt}
-            updatedAt={updatedAt}
-            importance={importance}
-            show={show}
-          />
+          <TodoSideTab>
+            <TodoItemDetail
+              taskName={taskName}
+              status={statIcon}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              importance={importance}
+            />
+          </TodoSideTab>
           <BackGround onClick={handleTitleOnClick}></BackGround>
         </>
       )}

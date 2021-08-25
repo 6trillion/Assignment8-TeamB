@@ -5,26 +5,42 @@ interface TodoItemDetailProps {
   taskName: string;
   status: string;
   createdAt: string;
+  updatedAt: string;
+  importance: string;
 }
 
 const TodoItemDetail = ({
   taskName,
   status,
   createdAt,
+  updatedAt,
+  importance,
 }: TodoItemDetailProps): ReactElement => {
   return (
     <TodoItemDetailWrapper>
-      <SideTabTitle>
-        {status} {taskName}
-      </SideTabTitle>
-      <div>생성일 : {createdAt}</div>
-      <LongButton>EDIT</LongButton>
-      <RedButton>DELETE</RedButton>
+      <div>
+        <SideTabTitle>
+          {status} {taskName}
+        </SideTabTitle>
+        <ItemContent>
+          {importance !== 'none' && '중요도 ' + importance}
+        </ItemContent>
+        <ItemContent>created at {createdAt}</ItemContent>
+        <ItemContent>last update at {createdAt}</ItemContent>
+      </div>
+      <ButtonWrapper>
+        <LongButton>EDIT</LongButton>
+        <RedButton>DELETE</RedButton>
+      </ButtonWrapper>
     </TodoItemDetailWrapper>
   );
 };
 
 const TodoItemDetailWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 2rem;
 `;
 
@@ -33,6 +49,14 @@ const SideTabTitle = styled.div`
   font-weight: 600;
   margin-bottom: 2rem;
 `;
+
+const ItemContent = styled.div`
+  line-height: 2.2rem;
+  font-size: 1.4rem;
+  color: #a9a9a9;
+`;
+
+const ButtonWrapper = styled.div``;
 
 const LongButton = styled.button`
   width: 100%;
