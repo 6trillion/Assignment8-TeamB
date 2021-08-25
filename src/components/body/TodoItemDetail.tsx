@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface TodoItemDetailProps {
@@ -16,15 +16,103 @@ const TodoItemDetail = ({
   updatedAt,
   importance,
 }: TodoItemDetailProps): ReactElement => {
+  const [edit, setEdit] = useState(false);
+  const [textFirstEdit, setTextFirstEdit] = useState(true);
+  const [newText, setNewText] = useState(taskName);
+  const [newImportance, setNewImportance] = useState(importance);
+  let nameHeight = 0;
+
+  useEffect(() => {
+    const nameSpan = document.getElementById('taskName');
+    if (nameSpan) {
+      nameHeight = nameSpan.clientHeight;
+    }
+  }, []);
+
+  const handleEdit = () => {
+    if (!edit) {
+      setEdit(!edit);
+      return;
+    }
+
+    if (edit) {
+      saveData();
+      setEdit(!edit);
+    }
+  };
+
+  const handleCheckOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentCheck = e.target.id;
+    setNewImportance(currentCheck);
+  };
+
+  const handleTextareaOnChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const currentText = e.target.value;
+    setNewText(currentText);
+  };
+
+  const handleTextareaFocus = () => {
+    textFirstEdit && setNewText('');
+    setTextFirstEdit(false);
+  };
+
+  const saveData = () => {
+    console.log('save');
+    console.log(newText);
+    console.log(newImportance);
+  };
+
   return (
     <TodoItemDetailWrapper>
       <div>
         <SideTabTitle>
-          <span>{status}</span>
-          <span>{taskName}</span>
+          {!edit ? (
+            <>
+              <span>{status}</span>
+              <span id="taskName">{taskName}</span>
+            </>
+          ) : (
+            <>
+              <span>{status}</span>
+              <TextArea
+                value={newText}
+                onChange={handleTextareaOnChange}
+                onFocus={handleTextareaFocus}
+              ></TextArea>
+            </>
+          )}
         </SideTabTitle>
         <ItemContent>
-          {importance !== 'none' && '중요도 ' + importance}
+          {!edit ? (
+            importance !== 'none' ? (
+              '중요도 ' + importance
+            ) : (
+              '중요도 없음'
+            )
+          ) : (
+            <>
+              <CheckBoxWrapper>
+                <input
+                  type="checkbox"
+                  name="high"
+                  id="high"
+                  onChange={handleCheckOnChange}
+                  checked={newImportance === 'high'}
+                />
+                <label htmlFor="high">중요해요!</label>
+                <input
+                  type="checkbox"
+                  name="low"
+                  id="low"
+                  onChange={handleCheckOnChange}
+                  checked={newImportance === 'low'}
+                />
+                <label htmlFor="low">여유있어요</label>
+              </CheckBoxWrapper>
+            </>
+          )}
         </ItemContent>
         <ItemContent>
           <span>created at</span>
@@ -36,7 +124,7 @@ const TodoItemDetail = ({
         </ItemContent>
       </div>
       <ButtonWrapper>
-        <LongButton>EDIT</LongButton>
+        <LongButton onClick={handleEdit}>{!edit ? 'EDIT' : 'OK'}</LongButton>
         <RedButton>DELETE</RedButton>
       </ButtonWrapper>
     </TodoItemDetailWrapper>
@@ -63,12 +151,28 @@ const SideTabTitle = styled.div`
   }
 `;
 
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 10rem;
+  resize: none;
+`;
+
 const ItemContent = styled.div`
   display: flex;
   justify-content: space-between;
   line-height: 2.5rem;
   font-size: 1.4rem;
   color: #8a8a8a;
+`;
+
+const CheckBoxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  label {
+    margin-left: 0.5rem;
+    margin-right: 2rem;
+  }
 `;
 
 const ButtonWrapper = styled.div``;
