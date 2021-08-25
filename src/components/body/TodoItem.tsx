@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
+import TodoItemDetail from 'components/body/TodoItemDetail';
 
 interface TodoItemProps {
   taskName: string;
@@ -9,7 +10,11 @@ interface TodoItemProps {
   createdAt: string;
 }
 
-function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
+function TodoItem({
+  taskName,
+  status,
+  createdAt,
+}: TodoItemProps): ReactElement {
   const [statIcon, setStatIcon] = useState('🤍');
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -49,11 +54,13 @@ function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
       </ItemWrapper>
       {show && (
         <>
-          <TodoSideTab
-            taskName={taskName}
-            status={statIcon}
-            createdAt={createdAt}
-          />
+          <TodoSideTab>
+            <TodoItemDetail
+              taskName={taskName}
+              status={statIcon}
+              createdAt={createdAt}
+            />
+          </TodoSideTab>
           <BackGround onClick={handleTitleOnClick}></BackGround>
         </>
       )}
