@@ -20,13 +20,20 @@ const TodoItemDetail = ({
     <TodoItemDetailWrapper>
       <div>
         <SideTabTitle>
-          {status} {taskName}
+          <span>{status}</span>
+          <span>{taskName}</span>
         </SideTabTitle>
         <ItemContent>
           {importance !== 'none' && '중요도 ' + importance}
         </ItemContent>
-        <ItemContent>created at {createdAt}</ItemContent>
-        <ItemContent>last update at {createdAt}</ItemContent>
+        <ItemContent>
+          <span>created at</span>
+          <span>{createdAt}</span>
+        </ItemContent>
+        <ItemContent>
+          <span>last update at</span>
+          <span>{updatedAt}</span>
+        </ItemContent>
       </div>
       <ButtonWrapper>
         <LongButton>EDIT</LongButton>
@@ -45,15 +52,23 @@ const TodoItemDetailWrapper = styled.div`
 `;
 
 const SideTabTitle = styled.div`
+  display: flex;
   font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+
+  span:first-child {
+    margin-right: 0.8rem;
+  }
 `;
 
 const ItemContent = styled.div`
-  line-height: 2.2rem;
+  display: flex;
+  justify-content: space-between;
+  line-height: 2.5rem;
   font-size: 1.4rem;
-  color: #a9a9a9;
+  color: #8a8a8a;
 `;
 
 const ButtonWrapper = styled.div``;

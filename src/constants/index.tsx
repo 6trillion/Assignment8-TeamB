@@ -13,7 +13,8 @@ export const STATUS = {
 export const TODO_ITEM_LIST = [
   {
     id: 1,
-    taskName: '자소서 쓰기',
+    taskName:
+      '자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기 자소서 쓰기',
     status: STATUS.NOT_STARTED,
     createdAt: '2021-02-03',
     updatedAt: '2021-02-03',
