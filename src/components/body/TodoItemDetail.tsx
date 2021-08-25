@@ -1,5 +1,6 @@
 import { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { DATE_FORMAT } from 'constants/index';
 
 interface TodoItemDetailProps {
   taskName: string;
@@ -41,6 +42,11 @@ const TodoItemDetail = ({
     }
   };
 
+  const getDateOfLastUpdate = () => {
+    const date = new Date().toISOString().slice(0, 10);
+    return date;
+  };
+
   const handleCheckOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentCheck = e.target.id;
     setNewImportance(currentCheck);
@@ -62,6 +68,7 @@ const TodoItemDetail = ({
     console.log('save');
     console.log(newText);
     console.log(newImportance);
+    console.log(getDateOfLastUpdate());
   };
 
   return (
