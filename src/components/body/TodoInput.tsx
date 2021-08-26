@@ -7,12 +7,13 @@ interface TodoInputProps {
 }
 
 const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
-  const [selectedOption, setSelectedOption] = useState('none');
+  const [selectedOption, setSelectedOption] = useState('');
 
   const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentSelectedId = e.target.id;
-    setSelectedOption(currentSelectedId);
-    console.log(currentSelectedId);
+    currentSelectedId === selectedOption
+      ? setSelectedOption('none')
+      : setSelectedOption(currentSelectedId);
   };
 
   const handleAddButton = () => {
