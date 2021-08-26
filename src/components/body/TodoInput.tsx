@@ -31,7 +31,6 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     dispatch({
       type: 'CREATE',
       taskName: value,
