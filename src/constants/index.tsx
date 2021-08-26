@@ -115,7 +115,7 @@ export function TodosContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [todos, dispatch] = useReducer(todosReducer, TODO_ITEM_LIST);
+  const [todos, dispatch] = useReducer(todosReducer, localTodosList);
   storage.save(todos);
   return (
     <TodosDispatchContext.Provider value={dispatch}>
