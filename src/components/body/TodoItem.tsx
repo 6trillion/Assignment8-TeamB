@@ -4,6 +4,7 @@ import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
 import TodoItemDetail from 'components/body/TodoItemDetail';
 import { useSideTab } from 'utils/useSideTab';
+import { storage } from 'utils/Tokens';
 
 interface TodoItemProps {
   id: number;
@@ -32,10 +33,11 @@ function TodoItem({
     onItemClick,
     onAnimationEnd,
   } = useSideTab();
+
   useEffect(() => {
     checkStatus();
     checkImportance();
-  }, []);
+  }, [importance, isOpen]);
 
   const checkStatus = () => {
     switch (status) {
