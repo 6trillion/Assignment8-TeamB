@@ -3,22 +3,16 @@ import styled, { keyframes } from 'styled-components';
 
 interface TodoSideTabProps {
   fade: boolean;
-  setShow: any;
+  setIsOpen: any;
+  onAnimationEnd: any;
   children: React.ReactElement;
 }
 
 function TodoSideTab({
   fade,
-  setShow,
   children,
+  onAnimationEnd,
 }: TodoSideTabProps): React.ReactElement {
-  const onAnimationEnd = () => {
-    // fadeout일때만 tab 닫기
-    if (fade === false) {
-      setShow(false);
-    }
-  };
-
   return (
     <SideTabWrapper onAnimationEnd={onAnimationEnd} fade={fade}>
       {children}

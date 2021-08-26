@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
 import TodoItemDetail from 'components/body/TodoItemDetail';
+import { useSideTab } from 'utils/useSideTab';
 
 interface TodoItemProps {
   taskName: string;
@@ -21,8 +22,14 @@ function TodoItem({
 }: TodoItemProps): ReactElement {
   const [statIcon, setStatIcon] = useState('🤍');
   const [importanceIcon, setImportanceIcon] = useState('');
-  const [show, setShow] = useState(false);
-  const [fade, setFade] = useState(true);
+  const {
+    isOpen,
+    setIsOpen,
+    fade,
+    onBackgroundClick,
+    onItemClick,
+    onAnimationEnd,
+  } = useSideTab();
   useEffect(() => {
     checkStatus();
     checkImportance();
@@ -59,20 +66,6 @@ function TodoItem({
     }
   };
 
-  const handleTitleOnClick = () => {
-    setShow(!show);
-  };
-
-  const onBackgroundClick = () => {
-    // 배경 클릭했을 때 fadeout animation 작동
-    setFade(false);
-  };
-
-  const onItemClick = () => {
-    setShow(true);
-    setFade(true); // 초기값이 true여서 없어도 상관없을거같긴한데 테스트좀 부탁드릴게요
-  };
-
   return (
     <>
       <ItemWrapper>
@@ -83,9 +76,13 @@ function TodoItem({
           <ItemContent>{importanceIcon}</ItemContent>
         </ItemContentWrapper>
       </ItemWrapper>
-      {show && (
+      {isOpen && (
         <>
-          <TodoSideTab fade={fade} setShow={setShow}>
+          <TodoSideTab
+            fade={fade}
+            setIsOpen={setIsOpen}
+            onAnimationEnd={onAnimationEnd}
+          >
             <TodoItemDetail
               taskName={taskName}
               status={statIcon}
@@ -134,7 +131,7 @@ const ItemContent = styled.div`
   color: #a9a9a9;
 `;
 
-const BackGround = styled.div`
+export const BackGround = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;

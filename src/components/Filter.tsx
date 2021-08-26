@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import { DatePicker } from 'antd';
@@ -13,13 +14,17 @@ import { DATE_FORMAT } from 'constants/index';
 interface FilterProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  fade: boolean;
+  setIsOpen: any;
+  setFade: any;
 }
 
 function Filter({
   createdAtPeriod,
   setCreatedAtPeriod,
+  fade,
   setIsOpen,
+  setFade,
 }: FilterProps): ReactElement {
   const [startDate, setStartDate] = useState<date>(createdAtPeriod[0]);
   const [endDate, setEndDate] = useState<date>(createdAtPeriod[1]);
@@ -44,9 +49,13 @@ function Filter({
     return startDate ? current.format(DATE_FORMAT) < startDate : false;
   };
 
+  const handleClose = () => {
+    setFade(false);
+  };
+
   const onApplyButtonClick = (): void => {
     setCreatedAtPeriod([startDate, endDate]);
-    setIsOpen(false);
+    handleClose();
   };
 
   return (
@@ -54,7 +63,7 @@ function Filter({
       <HeaderRow>
         <FilterIcon />
         <div>Filter</div>
-        <CloseIcon onClick={() => setIsOpen(false)} />
+        <CloseIcon onClick={handleClose} />
       </HeaderRow>
       <TitleRow>
         <div>생성일</div>
@@ -87,7 +96,7 @@ function Filter({
       </DateRow>
       <ButtonRow>
         <button onClick={onApplyButtonClick}>적용</button>
-        <button onClick={() => setIsOpen(false)}>취소</button>
+        <button onClick={handleClose}>취소</button>
       </ButtonRow>
     </FilterWrapper>
   );
