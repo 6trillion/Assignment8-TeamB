@@ -22,6 +22,7 @@ function TodoItem({
   const [statIcon, setStatIcon] = useState('🤍');
   const [importanceIcon, setImportanceIcon] = useState('');
   const [show, setShow] = useState(false);
+  const [fade, setFade] = useState(true);
   useEffect(() => {
     checkStatus();
     checkImportance();
@@ -62,19 +63,29 @@ function TodoItem({
     setShow(!show);
   };
 
+  const onBackgroundClick = () => {
+    // 배경 클릭했을 때 fadeout animation 작동
+    setFade(false);
+  };
+
+  const onItemClick = () => {
+    setShow(true);
+    setFade(true); // 초기값이 true여서 없어도 상관없을거같긴한데 테스트좀 부탁드릴게요
+  };
+
   return (
     <>
       <ItemWrapper>
         <ItemStatusIcon>{statIcon}</ItemStatusIcon>
         <ItemContentWrapper>
-          <ItemTitle onClick={handleTitleOnClick}>{taskName}</ItemTitle>
+          <ItemTitle onClick={onItemClick}>{taskName}</ItemTitle>
           <ItemContent>created at {createdAt}</ItemContent>
           <ItemContent>{importanceIcon}</ItemContent>
         </ItemContentWrapper>
       </ItemWrapper>
       {show && (
         <>
-          <TodoSideTab>
+          <TodoSideTab fade={fade} setShow={setShow}>
             <TodoItemDetail
               taskName={taskName}
               status={statIcon}
@@ -83,7 +94,7 @@ function TodoItem({
               importance={importance}
             />
           </TodoSideTab>
-          <BackGround onClick={handleTitleOnClick}></BackGround>
+          <BackGround onClick={onBackgroundClick}></BackGround>
         </>
       )}
     </>
