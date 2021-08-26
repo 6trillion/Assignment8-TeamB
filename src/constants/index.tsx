@@ -66,6 +66,13 @@ const TodosStateContext = createContext<TodosState>(localTodosList);
 type Action =
   | { type: 'CREATE'; taskName: string }
   | { type: 'TOGGLE'; id: number }
+  | {
+      type: 'UPDATE';
+      id: number;
+      newText: string;
+      newDate: string;
+      newImportance: string;
+    }
   | { type: 'REMOVE'; id: number };
 
 type TodosDispatch = Dispatch<Action>;
@@ -87,6 +94,17 @@ function todosReducer(state: TodosState, action: Action): TodosState {
       });
     case 'REMOVE':
       return state.filter(todo => todo.id !== action.id);
+    case 'UPDATE':
+      return state.map(todo =>
+        todo.id === action.id
+          ? {
+              ...todo,
+              taskName: action.newText,
+              updatedAt: action.newDate,
+              importance: action.newImportance,
+            }
+          : todo,
+      );
     default:
       throw new Error('Unhandled action');
   }

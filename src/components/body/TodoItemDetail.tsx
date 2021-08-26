@@ -1,7 +1,12 @@
 import { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import CustomCheckBox from 'components/Form/CustomCheckBox';
+import { ITodo } from 'types/index';
+import { storage } from 'utils/Tokens';
+import { useTodosDispatch } from 'constants/index';
 
 interface TodoItemDetailProps {
+  id: number;
   taskName: string;
   status: string;
   createdAt: string;
@@ -10,6 +15,7 @@ interface TodoItemDetailProps {
 }
 
 const TodoItemDetail = ({
+  id,
   taskName,
   status,
   createdAt,
@@ -18,16 +24,10 @@ const TodoItemDetail = ({
 }: TodoItemDetailProps): ReactElement => {
   const [edit, setEdit] = useState(false);
   const [textFirstEdit, setTextFirstEdit] = useState(true);
+
   const [newText, setNewText] = useState(taskName);
   const [newImportance, setNewImportance] = useState(importance);
-  let nameHeight = 0;
-
-  useEffect(() => {
-    const nameSpan = document.getElementById('taskName');
-    if (nameSpan) {
-      nameHeight = nameSpan.clientHeight;
-    }
-  }, []);
+  const dispatch = useTodosDispatch();
 
   const handleEdit = () => {
     if (!edit) {
@@ -36,7 +36,7 @@ const TodoItemDetail = ({
     }
 
     if (edit) {
-      saveData();
+      updateData();
       setEdit(!edit);
     }
   };
@@ -46,9 +46,11 @@ const TodoItemDetail = ({
     return date;
   };
 
-  const handleCheckOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentCheck = e.target.id;
-    setNewImportance(currentCheck);
+  const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentSelectedId = e.target.id;
+    currentSelectedId === newImportance
+      ? setNewImportance('none')
+      : setNewImportance(currentSelectedId);
   };
 
   const handleTextareaOnChange = (
@@ -63,11 +65,14 @@ const TodoItemDetail = ({
     setTextFirstEdit(false);
   };
 
-  const saveData = () => {
-    console.log('save');
-    console.log(newText);
-    console.log(newImportance);
-    console.log(getDateOfLastUpdate());
+  const updateData = () => {
+    dispatch({
+      type: 'UPDATE',
+      id: id,
+      newText: newText,
+      newDate: getDateOfLastUpdate(),
+      newImportance: newImportance,
+    });
   };
 
   return (
@@ -77,7 +82,7 @@ const TodoItemDetail = ({
           {!edit ? (
             <>
               <span>{status}</span>
-              <span id="taskName">{taskName}</span>
+              <span id="taskName">{newText}</span>
             </>
           ) : (
             <>
@@ -92,30 +97,28 @@ const TodoItemDetail = ({
         </SideTabTitle>
         <ItemContent>
           {!edit ? (
-            importance !== 'none' ? (
-              '중요도 ' + importance
+            newImportance !== 'none' ? (
+              '중요도 ' + newImportance
             ) : (
               '중요도 없음'
             )
           ) : (
             <>
               <CheckBoxWrapper>
-                <input
-                  type="checkbox"
-                  name="high"
+                <CustomCheckBox
+                  className="high"
+                  labelText="중요해요!"
                   id="high"
-                  onChange={handleCheckOnChange}
                   checked={newImportance === 'high'}
+                  checkHandler={handleCheckEvent}
                 />
-                <label htmlFor="high">중요해요!</label>
-                <input
-                  type="checkbox"
-                  name="low"
+                <CustomCheckBox
+                  className="low"
+                  labelText="여유있어요"
                   id="low"
-                  onChange={handleCheckOnChange}
                   checked={newImportance === 'low'}
+                  checkHandler={handleCheckEvent}
                 />
-                <label htmlFor="low">여유있어요</label>
               </CheckBoxWrapper>
             </>
           )}
@@ -173,12 +176,6 @@ const ItemContent = styled.div`
 
 const CheckBoxWrapper = styled.div`
   display: flex;
-  align-items: center;
-
-  label {
-    margin-left: 0.5rem;
-    margin-right: 2rem;
-  }
 `;
 
 const ButtonWrapper = styled.div``;

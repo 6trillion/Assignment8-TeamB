@@ -33,6 +33,7 @@ function TodoBoard({ title, todolist }: TodoBoardProps) {
         {open && <TodoInput onSubmit={handleTodoInput} />}
         {todolist.map(todo => (
           <TodoItem
+            id={todo.id}
             taskName={todo.taskName}
             status={todo.status}
             createdAt={todo.createdAt}

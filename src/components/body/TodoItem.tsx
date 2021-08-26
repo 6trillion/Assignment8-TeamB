@@ -6,6 +6,7 @@ import TodoItemDetail from 'components/body/TodoItemDetail';
 import { useSideTab } from 'utils/useSideTab';
 
 interface TodoItemProps {
+  id: number;
   taskName: string;
   status: string;
   createdAt: string;
@@ -14,6 +15,7 @@ interface TodoItemProps {
 }
 
 function TodoItem({
+  id,
   taskName,
   status,
   createdAt,
@@ -84,6 +86,7 @@ function TodoItem({
             onAnimationEnd={onAnimationEnd}
           >
             <TodoItemDetail
+              id={id}
               taskName={taskName}
               status={statIcon}
               createdAt={createdAt}
