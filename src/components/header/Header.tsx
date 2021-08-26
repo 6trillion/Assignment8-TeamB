@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import TodoSideTab from 'components/body/TodoSideTab';
 import Filter from 'components/Filter';
-import { date } from 'types/index';
+import { date, Importance } from 'types/index';
 
 interface HeaderProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
-  setImportance: any;
+  setImportance: Dispatch<SetStateAction<Importance>>;
 }
 
 function Header({
