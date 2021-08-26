@@ -8,12 +8,14 @@ interface HeaderProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
   setImportance: Dispatch<SetStateAction<Importance>>;
+  importance: Importance;
 }
 
 function Header({
   createdAtPeriod,
   setCreatedAtPeriod,
   setImportance,
+  importance,
 }: HeaderProps): ReactElement {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -33,6 +35,7 @@ function Header({
               setCreatedAtPeriod={setCreatedAtPeriod}
               setImportance={setImportance}
               setIsOpen={setIsOpen}
+              importance={importance}
             />
           </TodoSideTab>
           <BackGround onClick={() => setIsOpen(false)}></BackGround>

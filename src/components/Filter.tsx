@@ -12,6 +12,7 @@ interface FilterProps {
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
   setImportance: Dispatch<SetStateAction<Importance>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  importance: Importance;
 }
 
 function Filter({
@@ -19,14 +20,11 @@ function Filter({
   setCreatedAtPeriod,
   setImportance,
   setIsOpen,
+  importance,
 }: FilterProps): ReactElement {
   const [startDate, setStartDate] = useState<date>(createdAtPeriod[0]);
   const [endDate, setEndDate] = useState<date>(createdAtPeriod[1]);
-  const [radioInputs, setRadioInputs] = useState<Importance>({
-    high: false,
-    low: false,
-    none: false,
-  });
+  const [radioInputs, setRadioInputs] = useState<Importance>(importance);
 
   const onStartDateChange = (date: Moment | null) => {
     date ? setStartDate(date.format(DATE_FORMAT)) : setStartDate(null);
