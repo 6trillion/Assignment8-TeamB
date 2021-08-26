@@ -53,7 +53,7 @@ function TodoItem({
         setImportanceIcon('🎵');
         break;
       default:
-        setImportanceIcon('');
+        setImportanceIcon('🧨');
         break;
     }
   };
