@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
+import { Dispatch, SetStateAction, ReactElement } from 'react';
 import styled from 'styled-components';
 import TodoSideTab from 'components/body/TodoSideTab';
 import Filter from 'components/Filter';
 import { date, Importance } from 'types/index';
-
+import { useSideTab } from 'utils/useSideTab';
+import { BackGround } from 'components/body/TodoItem';
 interface HeaderProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
@@ -15,7 +16,15 @@ function Header({
   setCreatedAtPeriod,
   setImportance,
 }: HeaderProps): ReactElement {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const {
+    isOpen,
+    setIsOpen,
+    fade,
+    setFade,
+    onBackgroundClick,
+    onItemClick,
+    onAnimationEnd,
+  } = useSideTab();
 
   return (
     <HeaderLayout>
@@ -24,18 +33,24 @@ function Header({
           <HeaderImg src="https://i0.wp.com/www.moduparking.com/wp-content/uploads/2021/02/cropped-BI_모두의주차장RGB-04.png?fit=1063%2C265&ssl=1" />
         </HeaderA>
       </HeaderLayer>
-      <ButtonWrap onClick={() => setIsOpen(!isOpen)}>필터</ButtonWrap>
+      <ButtonWrap onClick={onItemClick}>필터</ButtonWrap>
       {isOpen && (
         <>
-          <TodoSideTab>
+          <TodoSideTab
+            fade={fade}
+            setIsOpen={setIsOpen}
+            onAnimationEnd={onAnimationEnd}
+          >
             <Filter
               createdAtPeriod={createdAtPeriod}
               setCreatedAtPeriod={setCreatedAtPeriod}
+              fade={fade}
+              setFade={setFade}
               setImportance={setImportance}
               setIsOpen={setIsOpen}
             />
           </TodoSideTab>
-          <BackGround onClick={() => setIsOpen(false)}></BackGround>
+          <BackGround onClick={onBackgroundClick}></BackGround>
         </>
       )}
     </HeaderLayout>
@@ -61,16 +76,6 @@ const HeaderImg = styled.img`
   padding: 1rem;
   max-width: 291px;
   margin-left: 10%;
-`;
-
-const BackGround = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #00000016;
-  z-index: 1;
 `;
 
 const ButtonWrap = styled.button`

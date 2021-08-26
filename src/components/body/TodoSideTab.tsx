@@ -2,27 +2,46 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 interface TodoSideTabProps {
+  fade: boolean;
+  setIsOpen: any;
+  onAnimationEnd: any;
   children: React.ReactElement;
 }
 
-function TodoSideTab({ children }: TodoSideTabProps): React.ReactElement {
-  return <SideTabWrapper>{children}</SideTabWrapper>;
+function TodoSideTab({
+  fade,
+  children,
+  onAnimationEnd,
+}: TodoSideTabProps): React.ReactElement {
+  return (
+    <SideTabWrapper onAnimationEnd={onAnimationEnd} fade={fade}>
+      {children}
+    </SideTabWrapper>
+  );
 }
 
 export default TodoSideTab;
 
-const animate = keyframes`
+const fadeIn = keyframes`
  from {
-   transform : translateX(200px)
+   transform : translateX(30rem);
  }
  to {
-   transform: translateX(0px;)
+   transform: translateX(0);
  }
 `;
 
-const SideTabWrapper = styled.div`
-  width: 30%;
-  min-width: 30rem;
+const fadeOut = keyframes`
+ from {
+   transform: translateX(0);
+ }
+ to {
+   transform: translateX(30rem);
+ }
+`;
+
+const SideTabWrapper = styled.div<{ fade: boolean }>`
+  width: 30rem;
   height: 100%;
   position: fixed;
   top: 0;
@@ -33,8 +52,8 @@ const SideTabWrapper = styled.div`
   background-color: #fff;
   box-shadow: 0rem 0.3rem 0.9rem -0.6rem #0000005b;
   z-index: 999;
-  animation-duration: 0.2s;
+  animation-duration: 0.4s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
-  animation-name: ${animate};
+  animation-name: ${({ fade }) => (fade ? fadeIn : fadeOut)};
 `;

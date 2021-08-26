@@ -1,7 +1,11 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
+import CustomCheckBox from 'components/Form/CustomCheckBox';
+import { useTodosDispatch } from 'constants/index';
 import styled from 'styled-components';
+import 'styles/reset.css';
 
 interface TodoItemDetailProps {
+  id: number;
   taskName: string;
   status: string;
   createdAt: string;
@@ -10,21 +14,125 @@ interface TodoItemDetailProps {
 }
 
 const TodoItemDetail = ({
+  id,
   taskName,
   status,
   createdAt,
   updatedAt,
   importance,
 }: TodoItemDetailProps): ReactElement => {
+  const [edit, setEdit] = useState(false);
+  const [textFirstEdit, setTextFirstEdit] = useState(true);
+  const [newText, setNewText] = useState(taskName);
+  const [newImportance, setNewImportance] = useState(importance);
+  const [height, setHeight] = useState(0);
+
+  const dispatch = useTodosDispatch();
+
+  useEffect(() => {
+    const textareaDiv = document.getElementById('taskName');
+    let divHeight = 0;
+    if (textareaDiv !== null) {
+      divHeight = textareaDiv.clientHeight;
+    }
+    console.log(divHeight);
+    setHeight(divHeight);
+  }, []);
+
+  const handleEdit = () => {
+    if (!edit) {
+      setEdit(!edit);
+      return;
+    }
+
+    if (edit) {
+      updateData();
+      setEdit(!edit);
+    }
+  };
+
+  const getDateOfLastUpdate = () => {
+    const date = new Date().toISOString().slice(0, 10);
+    return date;
+  };
+
+  const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentSelectedId = e.target.id;
+    currentSelectedId === newImportance
+      ? setNewImportance('none')
+      : setNewImportance(currentSelectedId);
+  };
+
+  const handleTextareaOnChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const currentText = e.target.value;
+    setNewText(currentText);
+  };
+
+  const handleTextareaFocus = () => {
+    textFirstEdit && setNewText('');
+    setTextFirstEdit(false);
+  };
+
+  const updateData = () => {
+    dispatch({
+      type: 'UPDATE',
+      id: id,
+      newText: newText,
+      newDate: getDateOfLastUpdate(),
+      newImportance: newImportance,
+    });
+  };
+
   return (
     <TodoItemDetailWrapper>
       <div>
         <SideTabTitle>
-          <span>{status}</span>
-          <span>{taskName}</span>
+          {!edit ? (
+            <>
+              <span>{status}</span>
+              <span id="taskName">{newText}</span>
+            </>
+          ) : (
+            <>
+              <span>{status}</span>
+              <TextArea
+                value={newText}
+                onChange={handleTextareaOnChange}
+                onFocus={handleTextareaFocus}
+                height={height}
+              ></TextArea>
+            </>
+          )}
         </SideTabTitle>
         <ItemContent>
-          {importance !== 'none' && '중요도 ' + importance}
+          {!edit ? (
+            newImportance !== 'none' ? (
+              '중요도 ' + newImportance
+            ) : (
+              '중요도 없음'
+            )
+          ) : (
+            <>
+              <CheckBoxWrapper>
+                <CustomCheckBox
+                  className="high"
+                  labelText="중요해요!"
+                  id="high"
+                  checked={newImportance === 'high'}
+                  checkHandler={handleCheckEvent}
+                />
+                <CustomCheckBox
+                  className="low"
+                  labelText="여유있어요"
+                  id="low"
+                  checked={newImportance === 'low'}
+                  checkHandler={handleCheckEvent}
+                />
+              </CheckBoxWrapper>
+            </>
+          )}
         </ItemContent>
         <ItemContent>
           <span>created at</span>
@@ -36,7 +144,7 @@ const TodoItemDetail = ({
         </ItemContent>
       </div>
       <ButtonWrapper>
-        <LongButton>EDIT</LongButton>
+        <LongButton onClick={handleEdit}>{!edit ? 'EDIT' : 'OK'}</LongButton>
         <RedButton>DELETE</RedButton>
       </ButtonWrapper>
     </TodoItemDetailWrapper>
@@ -63,12 +171,22 @@ const SideTabTitle = styled.div`
   }
 `;
 
+const TextArea = styled.textarea<{ height: number }>`
+  width: 100%;
+  height: ${({ height }) => height + 30 + 'px'};
+  resize: none;
+`;
+
 const ItemContent = styled.div`
   display: flex;
   justify-content: space-between;
   line-height: 2.5rem;
   font-size: 1.4rem;
   color: #8a8a8a;
+`;
+
+const CheckBoxWrapper = styled.div`
+  display: flex;
 `;
 
 const ButtonWrapper = styled.div``;

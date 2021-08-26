@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'constants/index';
-import { storage } from 'utils/Tokens';
+import styled from 'styled-components';
 
 interface TodoInputProps {
   onSubmit: (open: boolean) => void;
@@ -15,8 +14,9 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
 
   const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentSelectedId = e.target.id;
-    setSelectedOption(currentSelectedId);
-    console.log(currentSelectedId);
+    currentSelectedId === selectedOption
+      ? setSelectedOption('none')
+      : setSelectedOption(currentSelectedId);
   };
 
   const handleAddButton = () => {
