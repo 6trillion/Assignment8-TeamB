@@ -1,36 +1,47 @@
-import React from 'react';
+import { ReactElement, useState } from 'react';
 
-import Tokens from 'utils/Tokens';
-import TodoBody from 'components/body/TodoBody';
+import { TodoBody } from 'components/body';
 import Header from 'components/header/Header';
+import { DATE_FORMAT } from 'constants/index';
+import { date, Importance, ITodo } from 'types/index';
+import { TodosContextProvider } from 'constants/index';
 
-function App() {
-  const task = [
-    {
-      id: 1,
-      taskName: '자소서 쓰기',
-      status: 'status.ONGOING',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      importance: 'none',
-    },
-  ];
+function App(): ReactElement {
+  const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);
+  const [importance, setImportance] = useState<Importance>({
+    high: false,
+    low: false,
+    none: false,
+  });
 
-  const tokens = Tokens.getInstance();
-  tokens.save(task);
-  const accessToken = tokens.load();
-  console.log(accessToken);
-  const HandleClear = () => {
-    tokens.clear();
+  const createdAtFilter = ({ createdAt }: { createdAt: string }): boolean => {
+    const startDate: string = createdAtPeriod[0] ?? '';
+    const endDate: string = createdAtPeriod[1] ?? DATE_FORMAT;
+
+    return startDate <= createdAt && createdAt <= endDate;
+  };
+
+  const importanceFilter = (todo: ITodo): boolean => {
+    const { high, low, none } = importance;
+
+    if (!high && !low && !none) return true;
+
+    return importance[todo.importance];
   };
 
   return (
     <>
-      <div className="App">
-        <Header />
-        <TodoBody />
-      </div>
-      <button onClick={HandleClear}>지우기</button>
+      <Header
+        createdAtPeriod={createdAtPeriod}
+        setCreatedAtPeriod={setCreatedAtPeriod}
+        setImportance={setImportance}
+      />
+      <TodosContextProvider>
+        <TodoBody
+          createdAtFilter={createdAtFilter}
+          importanceFilter={importanceFilter}
+        />
+      </TodosContextProvider>
     </>
   );
 }

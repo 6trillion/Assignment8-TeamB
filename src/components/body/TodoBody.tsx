@@ -1,31 +1,35 @@
-import React from 'react';
+import { ReactElement } from 'react';
 import styled from 'styled-components';
 import 'styles/reset.css';
-import TodoBoard from './TodoBoard';
-import { STATUS, TODO_ITEM_LIST } from 'constants/index';
+import { TodoBoard } from 'components/body';
+import { STATUS, TODO_STATUS_TEXT, useTodosState } from 'constants/index';
 
-function TodoBody() {
-  const TODO = 'TO DO';
-  const ON_PROGRESS = 'On Progress';
-  const DONE = 'DONE';
+interface TodoBodyProps {
+  createdAtFilter: ({ createdAt }: { createdAt: string }) => boolean;
+  importanceFilter: any;
+}
+
+function TodoBody({
+  createdAtFilter,
+  importanceFilter,
+}: TodoBodyProps): ReactElement {
+  const todoList = useTodosState()
+    .filter(createdAtFilter)
+    .filter(importanceFilter);
 
   return (
     <BodyWrapper>
       <TodoBoard
-        title={TODO}
-        todolist={TODO_ITEM_LIST.filter(
-          item => item.status === STATUS.NOT_STARTED,
-        )}
+        title={TODO_STATUS_TEXT.TODO}
+        todolist={todoList.filter(item => item.status === STATUS.NOT_STARTED)}
       />
       <TodoBoard
-        title={ON_PROGRESS}
-        todolist={TODO_ITEM_LIST.filter(item => item.status === STATUS.ONGOING)}
-      />{' '}
+        title={TODO_STATUS_TEXT.ON_PROGRESS}
+        todolist={todoList.filter(item => item.status === STATUS.ONGOING)}
+      />
       <TodoBoard
-        title={DONE}
-        todolist={TODO_ITEM_LIST.filter(
-          item => item.status === STATUS.FINISHED,
-        )}
+        title={TODO_STATUS_TEXT.DONE}
+        todolist={todoList.filter(item => item.status === STATUS.FINISHED)}
       />
     </BodyWrapper>
   );

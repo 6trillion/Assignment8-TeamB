@@ -1,19 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
+import TodoItemDetail from 'components/body/TodoItemDetail';
 
 interface TodoItemProps {
   taskName: string;
   status: string;
   createdAt: string;
+  updatedAt: string;
+  importance: string;
 }
 
-function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
+function TodoItem({
+  taskName,
+  status,
+  createdAt,
+  updatedAt,
+  importance,
+}: TodoItemProps): ReactElement {
   const [statIcon, setStatIcon] = useState('🤍');
+  const [importanceIcon, setImportanceIcon] = useState('');
   const [show, setShow] = useState(false);
   useEffect(() => {
     checkStatus();
+    checkImportance();
   }, []);
 
   const checkStatus = () => {
@@ -33,6 +44,20 @@ function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
     }
   };
 
+  const checkImportance = () => {
+    switch (importance) {
+      case 'high':
+        setImportanceIcon('🔥');
+        break;
+      case 'low':
+        setImportanceIcon('🎵');
+        break;
+      default:
+        setImportanceIcon('');
+        break;
+    }
+  };
+
   const handleTitleOnClick = () => {
     setShow(!show);
   };
@@ -41,19 +66,23 @@ function TodoItem({ taskName, status, createdAt }: TodoItemProps) {
     <>
       <ItemWrapper>
         <ItemStatusIcon>{statIcon}</ItemStatusIcon>
-        <ItemContent>
+        <ItemContentWrapper>
           <ItemTitle onClick={handleTitleOnClick}>{taskName}</ItemTitle>
-          <div>{createdAt}</div>
-          {/* <div>분류</div> */}
-        </ItemContent>
+          <ItemContent>created at {createdAt}</ItemContent>
+          <ItemContent>{importanceIcon}</ItemContent>
+        </ItemContentWrapper>
       </ItemWrapper>
       {show && (
         <>
-          <TodoSideTab
-            taskName={taskName}
-            status={statIcon}
-            createdAt={createdAt}
-          />
+          <TodoSideTab>
+            <TodoItemDetail
+              taskName={taskName}
+              status={statIcon}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              importance={importance}
+            />
+          </TodoSideTab>
           <BackGround onClick={handleTitleOnClick}></BackGround>
         </>
       )}
@@ -66,26 +95,32 @@ export default TodoItem;
 export const ItemWrapper = styled.li`
   display: flex;
   line-height: 2rem;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   box-shadow: 0rem 0.3rem 0.9rem -0.8rem #0000003b;
   background-color: #fff;
   border: 1px solid #eeeeee;
   border-radius: 1rem;
   margin-bottom: 1rem;
-  padding: 0.8rem;
+  padding: 1.5rem 0.8rem;
 `;
 
 const ItemStatusIcon = styled.div`
   font-size: 1.3rem;
 `;
 
-const ItemContent = styled.div`
+const ItemContentWrapper = styled.div`
   margin-left: 0.8rem;
 `;
 
 const ItemTitle = styled.div`
   font-weight: 600;
   cursor: pointer;
+  color: #242424;
+`;
+
+const ItemContent = styled.div`
+  font-size: 1.4rem;
+  color: #a9a9a9;
 `;
 
 const BackGround = styled.div`
@@ -94,6 +129,6 @@ const BackGround = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #00000016;
+  background-color: #00000036;
   z-index: 1;
 `;

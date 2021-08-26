@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import PlusButton from './PlusButton';
-import TodoItem from './TodoItem';
-import TodoInput from './TodoInput';
+import styled, { keyframes } from 'styled-components';
+import { PlusButton } from 'components/body';
+import { TodoItem } from 'components/body';
+import { TodoInput } from 'components/body';
+import { ITodo } from 'types/index';
 import 'styles/reset.css';
-
-type Itodo = {
-  id: number;
-  taskName: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-};
 
 interface TodoBoardProps {
   title: string;
-  todolist: Itodo[];
+  todolist: ITodo[];
 }
 
 function TodoBoard({ title, todolist }: TodoBoardProps) {
   const [open, setOpen] = useState(false);
+
+  const handleTodoInput = (data: boolean) => {
+    setOpen(data);
+  };
+
   const handlePlusBtn = (data: boolean) => {
     setOpen(data);
   };
@@ -29,15 +27,17 @@ function TodoBoard({ title, todolist }: TodoBoardProps) {
       <BoardTitle>
         <BoardItemCount>{todolist.length}</BoardItemCount>
         <BoardTitleText>{title}</BoardTitleText>
-        <PlusButton onSubmit={handlePlusBtn} />
+        <PlusButton onSubmit={handlePlusBtn} open={open} />
       </BoardTitle>
       <ItemWrapper>
-        {open && <TodoInput />}
+        {open && <TodoInput onSubmit={handleTodoInput} />}
         {todolist.map(todo => (
           <TodoItem
             taskName={todo.taskName}
             status={todo.status}
             createdAt={todo.createdAt}
+            updatedAt={todo.updatedAt}
+            importance={todo.importance}
           />
         ))}
       </ItemWrapper>
