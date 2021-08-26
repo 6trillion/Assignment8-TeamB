@@ -1,21 +1,20 @@
 import { Dispatch, SetStateAction, ReactElement } from 'react';
 import styled from 'styled-components';
-
 import TodoSideTab from 'components/body/TodoSideTab';
 import Filter from 'components/Filter';
-
-import { date } from 'types/index';
+import { date, Importance } from 'types/index';
 import { useSideTab } from 'utils/useSideTab';
 import { BackGround } from 'components/body/TodoItem';
-
 interface HeaderProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
+  setImportance: Dispatch<SetStateAction<Importance>>;
 }
 
 function Header({
   createdAtPeriod,
   setCreatedAtPeriod,
+  setImportance,
 }: HeaderProps): ReactElement {
   const {
     isOpen,
@@ -34,7 +33,7 @@ function Header({
           <HeaderImg src="https://i0.wp.com/www.moduparking.com/wp-content/uploads/2021/02/cropped-BI_모두의주차장RGB-04.png?fit=1063%2C265&ssl=1" />
         </HeaderA>
       </HeaderLayer>
-      <button onClick={onItemClick}>버튼</button>
+      <ButtonWrap onClick={onItemClick}>필터</ButtonWrap>
       {isOpen && (
         <>
           <TodoSideTab
@@ -47,6 +46,7 @@ function Header({
               setCreatedAtPeriod={setCreatedAtPeriod}
               fade={fade}
               setFade={setFade}
+              setImportance={setImportance}
               setIsOpen={setIsOpen}
             />
           </TodoSideTab>
@@ -63,6 +63,7 @@ const HeaderLayout = styled.div`
   display: flex;
   align-items: center;
   position: fixed;
+  justify-content: space-between;
 `;
 
 const HeaderLayer = styled.div``;
@@ -74,6 +75,24 @@ const HeaderA = styled.a`
 const HeaderImg = styled.img`
   padding: 1rem;
   max-width: 291px;
+  margin-left: 10%;
 `;
 
+const ButtonWrap = styled.button`
+  background: skyblue;
+  padding: 1.5rem;
+  color: white;
+  border: 2px solid skyblue;
+  border-radius: 10px;
+  margin-right: 5%;
+  cursor: pointer;
+  &:hover {
+    background-color: #48b4e0;
+    border: 2px solid #48b4e0;
+  }
+  &:active {
+    position: relative;
+    top: 2px;
+  }
+`;
 export default Header;
