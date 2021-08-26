@@ -1,6 +1,5 @@
 import { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { DATE_FORMAT } from 'constants/index';
 
 interface TodoItemDetailProps {
   taskName: string;
