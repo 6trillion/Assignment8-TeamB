@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import PlusButton from './PlusButton';
-import TodoItem from './TodoItem';
-import TodoInput from './TodoInput';
-import 'styles/reset.css';
+import { PlusButton } from 'components/body';
+import { TodoItem } from 'components/body';
+import { TodoInput } from 'components/body';
 import { ITodo } from 'types/index';
+import 'styles/reset.css';
 
 interface TodoBoardProps {
   title: string;
