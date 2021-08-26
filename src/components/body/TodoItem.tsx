@@ -1,10 +1,9 @@
 import { ReactElement, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
 import TodoItemDetail from 'components/body/TodoItemDetail';
 import { useSideTab } from 'utils/useSideTab';
-import { storage } from 'utils/Tokens';
+import { STATUS } from 'constants/index';
+import styled from 'styled-components';
 
 interface TodoItemProps {
   id: number;

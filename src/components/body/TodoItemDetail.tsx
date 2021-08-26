@@ -1,9 +1,7 @@
-import { ReactElement, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { ReactElement, useState } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
-import { ITodo } from 'types/index';
-import { storage } from 'utils/Tokens';
 import { useTodosDispatch } from 'constants/index';
+import styled from 'styled-components';
 
 interface TodoItemDetailProps {
   id: number;

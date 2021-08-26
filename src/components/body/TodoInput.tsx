@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'constants/index';
-import { storage } from 'utils/Tokens';
+import styled from 'styled-components';
 
 interface TodoInputProps {
   onSubmit: (open: boolean) => void;
