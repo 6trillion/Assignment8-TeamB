@@ -48,7 +48,6 @@ const Wrapper = styled.div`
 
 const Label = styled.label<{ checked: boolean }>`
   display: flex;
-  align-items: center;
   color: ${({ checked }) => (checked ? 'black' : '#ccccd5')};
   user-select: none;
   cursor: pointer;

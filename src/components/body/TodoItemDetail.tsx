@@ -1,7 +1,8 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'constants/index';
 import styled from 'styled-components';
+import 'styles/reset.css';
 
 interface TodoItemDetailProps {
   id: number;
@@ -22,10 +23,21 @@ const TodoItemDetail = ({
 }: TodoItemDetailProps): ReactElement => {
   const [edit, setEdit] = useState(false);
   const [textFirstEdit, setTextFirstEdit] = useState(true);
-
   const [newText, setNewText] = useState(taskName);
   const [newImportance, setNewImportance] = useState(importance);
+  const [height, setHeight] = useState(0);
+
   const dispatch = useTodosDispatch();
+
+  useEffect(() => {
+    const textareaDiv = document.getElementById('taskName');
+    let divHeight = 0;
+    if (textareaDiv !== null) {
+      divHeight = textareaDiv.clientHeight;
+    }
+    console.log(divHeight);
+    setHeight(divHeight);
+  }, []);
 
   const handleEdit = () => {
     if (!edit) {
@@ -89,6 +101,7 @@ const TodoItemDetail = ({
                 value={newText}
                 onChange={handleTextareaOnChange}
                 onFocus={handleTextareaFocus}
+                height={height}
               ></TextArea>
             </>
           )}
@@ -158,9 +171,9 @@ const SideTabTitle = styled.div`
   }
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.textarea<{ height: number }>`
   width: 100%;
-  height: 10rem;
+  height: ${({ height }) => height + 30 + 'px'};
   resize: none;
 `;
 
