@@ -185,7 +185,7 @@ const CheckBoxWrapper = styled.div`
 
 const ButtonWrapper = styled.div``;
 
-const LongButton = styled.button`
+export const LongButton = styled.button`
   width: 100%;
   border: 1px solid #dcdcdc;
   border-radius: 0.8rem;
