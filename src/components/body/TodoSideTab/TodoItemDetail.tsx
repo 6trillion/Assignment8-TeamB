@@ -1,4 +1,4 @@
-import { ReactElement, useState, useEffect } from 'react';
+import { ReactElement, useState, useEffect, useRef } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'utils/TodosContext';
 import getDateOfLastUpdate from 'utils/getDateOfLastUpdate';
@@ -29,16 +29,12 @@ const TodoItemDetail = ({
 
   const dispatch = useTodosDispatch();
   const handleRemove = () => dispatch({ type: 'REMOVE', id });
+  const textSpan = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    const textareaDiv = document.getElementById('taskName');
-    let divHeight = 0;
-
-    if (textareaDiv !== null) {
-      divHeight = textareaDiv.clientHeight;
+    if (textSpan.current !== null && typeof textSpan.current !== undefined) {
+      setHeight(textSpan.current.clientHeight);
     }
-
-    setHeight(divHeight);
   }, []);
 
   const handleEdit = () => {
@@ -87,7 +83,9 @@ const TodoItemDetail = ({
           {!edit ? (
             <>
               <span>{status}</span>
-              <span id="taskName">{newText}</span>
+              <span id="taskName" ref={textSpan}>
+                {newText}
+              </span>
             </>
           ) : (
             <>
