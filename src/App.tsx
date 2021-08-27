@@ -1,10 +1,9 @@
 import { ReactElement, useState } from 'react';
-
 import { TodoBody } from 'components/body';
 import Header from 'components/header/Header';
 import { DATE_FORMAT } from 'constants/index';
 import { date, Importance, ITodo } from 'types/index';
-import { TodosContextProvider } from 'constants/index';
+import { TodosContextProvider } from 'utils/TodosContext';
 
 function App(): ReactElement {
   const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);

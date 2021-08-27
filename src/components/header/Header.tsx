@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, ReactElement } from 'react';
 import styled from 'styled-components';
 import TodoSideTab from 'components/body/TodoSideTab';
-import Filter from 'components/Filter';
+import Filter from 'components/Filter/Filter';
 import { date, Importance } from 'types/index';
 import { useSideTab } from 'utils/useSideTab';
 import { BackGround } from 'components/body/TodoItem';
