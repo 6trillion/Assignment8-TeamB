@@ -38,7 +38,6 @@ function todosReducer(state: TodosState, action: Action): TodosState {
       return state.concat({
         id: nextId,
         taskName: action.taskName,
-        //수정
         status: action.status,
         createdAt: action.createdAt,
         updatedAt: action.updatedAt,
