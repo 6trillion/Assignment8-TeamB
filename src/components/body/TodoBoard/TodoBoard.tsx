@@ -35,8 +35,8 @@ function TodoBoard({
   const onDragEnter = (e: React.DragEvent<HTMLElement>): void => {
     e.preventDefault();
 
-    const dragoverItemIndex: number = +((e.target as HTMLElement).dataset
-      .index as string);
+    const dragoverItemIndex: string | undefined = (e.target as HTMLElement)
+      .dataset.index;
 
     if (!dragoverItemIndex && e.target !== e.currentTarget) return;
 
@@ -47,7 +47,10 @@ function TodoBoard({
     draggingItem.current = index;
   };
 
-  const handleDragEnter = (e: React.DragEvent<HTMLElement>, index: number) => {
+  const handleDragEnter = (
+    e: React.DragEvent<HTMLElement>,
+    index: string | undefined,
+  ) => {
     const todoListCopy = [...todoList];
 
     if (!index) {
@@ -92,7 +95,7 @@ function TodoBoard({
       return;
     }
 
-    dragoverItem.current = index;
+    dragoverItem.current = +index;
 
     if (draggingItem.current === null || dragoverItem.current === null) return;
     if (draggingItem.current === dragoverItem.current) return;
