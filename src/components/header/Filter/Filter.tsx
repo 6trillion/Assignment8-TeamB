@@ -68,6 +68,27 @@ function Filter({
     });
   };
 
+  const importanceArray = Object.entries(radioInputs);
+  const importanceNameArray = importanceArray.map(x => x[0]);
+  const ImpotanceInput = () =>
+    importanceNameArray.map((value, index) => (
+      <Label key={index} htmlFor={value} checked={radioInputs[value]}>
+        <IRow>
+          <Input
+            type="checkbox"
+            name={value}
+            id={value}
+            checked={radioInputs[value]}
+            onChange={onRadioChange}
+          />
+          🔥 {value}
+          <CheckIcon>
+            <Icon icon={faCheck} />
+          </CheckIcon>
+        </IRow>
+      </Label>
+    ));
+
   return (
     <FilterWrapper>
       <HeaderRow>
@@ -78,53 +99,7 @@ function Filter({
       <TitleRow>
         <div>중요도</div>
       </TitleRow>
-      <ImpotantRow>
-        <Label htmlFor="high" checked={radioInputs.high}>
-          <IRow>
-            <Input
-              type="checkbox"
-              name="high"
-              id="high"
-              checked={radioInputs.high}
-              onChange={onRadioChange}
-            />
-            🔥 high
-            <CheckIcon>
-              <Icon icon={faCheck} />
-            </CheckIcon>
-          </IRow>
-        </Label>
-        <Label htmlFor="low" checked={radioInputs.low}>
-          <IRow>
-            <Input
-              type="checkbox"
-              name="low"
-              id="low"
-              checked={radioInputs.low}
-              onChange={onRadioChange}
-            />
-            🎵 low
-            <CheckIcon>
-              <Icon icon={faCheck} />
-            </CheckIcon>
-          </IRow>
-        </Label>
-        <Label htmlFor="none" checked={radioInputs.none}>
-          <IRow>
-            <Input
-              type="checkbox"
-              name="none"
-              id="none"
-              checked={radioInputs.none}
-              onChange={onRadioChange}
-            />
-            🧨 none
-            <CheckIcon>
-              <Icon icon={faCheck} />
-            </CheckIcon>
-          </IRow>
-        </Label>
-      </ImpotantRow>
+      <ImpotantRow>{ImpotanceInput()}</ImpotantRow>
       <TitleRow>
         <div>생성일</div>
       </TitleRow>
