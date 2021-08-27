@@ -11,3 +11,16 @@ export const STATUS = {
 };
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
+
+interface IFilterIcon {
+  [key: string]: string;
+  high: string;
+  low: string;
+  none: string;
+}
+
+export const FILTER_ICON: IFilterIcon = {
+  high: '🔥',
+  low: '🎵',
+  none: '🧨',
+};

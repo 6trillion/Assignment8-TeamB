@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, ReactElement, useState } from 'react';
 import { date, Importance } from 'types/index';
-import { DATE_FORMAT } from 'constants/index';
+import { DATE_FORMAT, FILTER_ICON } from 'constants/index';
 import { LongButton } from 'components/body/TodoSideTab/TodoItemDetail';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
@@ -81,7 +81,8 @@ function Filter({
             checked={radioInputs[value]}
             onChange={onRadioChange}
           />
-          🔥 {value}
+          {FILTER_ICON[value]}
+          {value}
           <CheckIcon>
             <Icon icon={faCheck} />
           </CheckIcon>
