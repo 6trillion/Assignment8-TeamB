@@ -3,8 +3,8 @@ import { TodoBody } from 'components/body';
 import { Header } from 'components/header';
 import { DATE_FORMAT } from 'constants/index';
 import { date, Importance, ITodo } from 'types/index';
-import { TodosContextProvider } from 'utils/TodosContext';
 import GlobalStyle from 'styles/GlobalStyle';
+import { useTodosDispatch, useTodosState } from 'utils/TodosContext';
 
 function App(): ReactElement {
   const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);
@@ -32,8 +32,24 @@ function App(): ReactElement {
     return importance[todo.importance];
   };
 
+  const onDragOver = (e: any) => {
+    e.preventDefault();
+  };
+
+  const todoList = useTodosState();
+  const dispatch = useTodosDispatch();
+
+  const onDrop = () => {
+    const test = todoList.filter((todoList: any) => todoList.isDrag);
+    dispatch({
+      type: 'DRAG',
+      id: test[0].id,
+      isDrag: false,
+    });
+  };
+
   return (
-    <>
+    <div onDrop={onDrop} onDragOver={onDragOver}>
       <GlobalStyle />
       <Header
         createdAtPeriod={createdAtPeriod}
@@ -41,10 +57,8 @@ function App(): ReactElement {
         setImportance={setImportance}
         importance={importance}
       />
-      <TodosContextProvider>
-        <TodoBody applyAllFilters={applyAllFilters} />
-      </TodosContextProvider>
-    </>
+      <TodoBody applyAllFilters={applyAllFilters} />
+    </div>
   );
 }
 

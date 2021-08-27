@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TodoBoard } from 'components/body';
 import { STATUS, TODO_STATUS_TEXT } from 'constants/index';
 import { ITodo } from 'types/index';
-import { useTodosState } from 'utils/TodosContext';
+import { useTodosDispatch, useTodosState } from 'utils/TodosContext';
 
 interface TodoBodyProps {
   applyAllFilters: (todo: ITodo) => boolean;
@@ -22,8 +22,24 @@ function TodoBody({ applyAllFilters }: TodoBodyProps): ReactElement {
     e.preventDefault();
   };
 
+  const dispatch = useTodosDispatch();
+
+  const onDrop = () => {
+    console.log('body drop');
+    const test = todoList.filter((todoList: any) => todoList.isDrag);
+    dispatch({
+      type: 'DRAG',
+      id: test[0].id,
+      isDrag: false,
+    });
+  };
+
   return (
-    <BodyWrapper onDragEnter={onDragEnter} onDragOver={onDragOver}>
+    <BodyWrapper
+      onDragEnter={onDragEnter}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    >
       <TodoBoard
         title={TODO_STATUS_TEXT.TODO}
         status={STATUS.NOT_STARTED}

@@ -1,4 +1,10 @@
-import React, { ReactElement, useState, MutableRefObject } from 'react';
+import React, {
+  ReactElement,
+  useState,
+  MutableRefObject,
+  useEffect,
+  useRef,
+} from 'react';
 import { PlusButton, TodoItem, TodoInput } from 'components/body';
 import { ITodo } from 'types/index';
 import { useTodosDispatch } from 'utils/TodosContext';
@@ -23,6 +29,12 @@ function TodoBoard({
   dragoverItem,
 }: TodoBoardProps): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
+  const [drag, setDrag] = useState(-1);
+
+  useEffect(() => {
+    // console.log(drag);
+  }, [drag]);
+
   const dispatch = useTodosDispatch();
 
   const handleTodoInput = (data: boolean): void => {
@@ -113,18 +125,34 @@ function TodoBoard({
     todoListCopy.splice(draggingItem.current, 1);
     todoListCopy.splice(dragoverItem.current, 0, draggingItemContent);
 
+    dispatch({ type: 'CHANGE', todoListCopy });
     draggingItem.current = dragoverItem.current;
     dragoverItem.current = null;
-
-    dispatch({ type: 'CHANGE', todoListCopy });
   };
 
   const itemCount: number = todoList
     .filter(applyAllFilters)
     .filter(item => item.status === status).length;
 
+  const onDrop = (e: any) => {
+    console.log('drop');
+    console.log(drag);
+    const test = todoList.filter((todoList: any) => todoList.isDrag);
+    dispatch({
+      type: 'DRAG',
+      id: test[0].id,
+      isDrag: false,
+    });
+    setDrag(-1);
+  };
+
+  const liRef = useRef<any>();
   return (
-    <BoardWrapper data-status={status} onDragEnter={onDragEnter}>
+    <BoardWrapper
+      data-status={status}
+      onDragEnter={onDragEnter}
+      onDrop={onDrop}
+    >
       <BoardTitle>
         <BoardItemCount>{itemCount}</BoardItemCount>
         <BoardTitleText>{title}</BoardTitleText>
@@ -146,6 +174,10 @@ function TodoBoard({
               updatedAt={todo.updatedAt}
               importance={todo.importance}
               handleDragStart={handleDragStart}
+              isDrag={todo.isDrag}
+              drag={drag}
+              setDrag={setDrag}
+              liRef={liRef}
             />
           );
         })}

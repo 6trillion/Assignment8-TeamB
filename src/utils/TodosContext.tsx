@@ -14,6 +14,7 @@ type Action =
       createdAt: string;
       updatedAt: string;
       importance: string;
+      isDrag: boolean;
     }
   | { type: 'TOGGLE'; id: number }
   | {
@@ -24,7 +25,8 @@ type Action =
       newImportance: string;
     }
   | { type: 'REMOVE'; id: number }
-  | { type: 'CHANGE'; todoListCopy: ITodo[] };
+  | { type: 'CHANGE'; todoListCopy: ITodo[] }
+  | { type: 'DRAG'; id: number; isDrag: boolean };
 
 type TodosDispatch = Dispatch<Action>;
 const TodosDispatchContext = createContext<TodosDispatch | undefined>(
@@ -42,6 +44,7 @@ function todosReducer(state: TodosState, action: Action): TodosState {
         createdAt: action.createdAt,
         updatedAt: action.updatedAt,
         importance: action.importance,
+        isDrag: false,
       });
     case 'REMOVE':
       return state.filter(todo => todo.id !== action.id);
@@ -58,6 +61,15 @@ function todosReducer(state: TodosState, action: Action): TodosState {
       });
     case 'CHANGE':
       return [...action.todoListCopy];
+    case 'DRAG':
+      return state.map(todo => {
+        return todo.id === action.id
+          ? {
+              ...todo,
+              isDrag: action.isDrag,
+            }
+          : todo;
+      });
     default:
       throw new Error('Unhandled action');
   }

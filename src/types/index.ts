@@ -5,6 +5,7 @@ export interface ITodo {
   createdAt: string;
   updatedAt: string;
   importance: string;
+  isDrag: boolean;
 }
 
 export type date = string | null;

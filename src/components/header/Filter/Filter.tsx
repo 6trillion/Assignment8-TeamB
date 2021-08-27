@@ -144,7 +144,8 @@ const FilterWrapper = styled.div`
 `;
 
 const ImpotantRow = styled.div`
-  margin: 2rem;
+  padding: 2rem;
+  border-bottom: 1px solid #e1e4e8;
 `;
 
 const Icon = styled(FontAwesomeIcon)`
@@ -189,7 +190,6 @@ const Row = styled.div`
 const HeaderRow = styled(Row)`
   background-color: #f6f8fa;
   border-bottom: 1px solid #e1e4e8;
-  margin-bottom: 1.6rem;
 
   & > :nth-child(2) {
     font-size: 2rem;

@@ -1,8 +1,10 @@
-import { ReactElement, useState, useEffect } from 'react';
+import { ReactElement, useState, useEffect, useRef } from 'react';
 import { TodoSideTab, TodoItemDetail } from 'components/body';
 import { STATUS } from 'constants/index';
 import { useSideTab } from 'utils/index';
 import styled from 'styled-components';
+import { useCallback } from 'react';
+import { useTodosDispatch } from 'utils/TodosContext';
 
 interface TodoItemProps {
   id: number;
@@ -13,6 +15,10 @@ interface TodoItemProps {
   updatedAt: string;
   importance: string;
   handleDragStart: (e: React.DragEvent<HTMLLIElement>, id: number) => void;
+  isDrag: any;
+  drag: any;
+  setDrag: any;
+  liRef: any;
 }
 
 function TodoItem({
@@ -24,6 +30,10 @@ function TodoItem({
   updatedAt,
   importance,
   handleDragStart,
+  isDrag,
+  drag,
+  setDrag,
+  liRef,
 }: TodoItemProps): ReactElement {
   const {
     isOpen,
@@ -35,7 +45,9 @@ function TodoItem({
   } = useSideTab();
   const [statIcon, setStatIcon] = useState<string>('🤍');
   const [importanceIcon, setImportanceIcon] = useState<string>('');
-  const [isDrag, setIsDrag] = useState<boolean>(false);
+  // const [isDrag, setIsDrag] = useState<any>(drag);
+  const liiRef = useRef<any>();
+  const dispatch = useTodosDispatch();
 
   useEffect(() => {
     checkStatus();
@@ -74,19 +86,35 @@ function TodoItem({
   };
 
   const onDragStart = (e: React.DragEvent<HTMLLIElement>) => {
-    setIsDrag(true);
+    dispatch({
+      type: 'DRAG',
+      id: id,
+      isDrag: true,
+    });
+    console.log(id);
+    // setIsDrag(index);
+    setDrag(id);
     handleDragStart(e, index);
+    // liiRef.current.style.opacity = 0.5;
+    // liiRef.current.style.backgroundColor = '#e0e0e0';
   };
 
   const onDragEnd = () => {
-    setIsDrag(false);
+    console.log('end');
+    dispatch({
+      type: 'DRAG',
+      id: id,
+      isDrag: false,
+    });
   };
 
   return (
     <>
       <ItemWrapper
+        ref={liiRef}
         data-index={index}
         isDrag={isDrag}
+        // isDrag={drag === index}
         draggable
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
@@ -151,6 +179,7 @@ const ItemTitle = styled.div`
   cursor: pointer;
   color: #242424;
   display: inline-block;
+  word-break: break-all;
 
   &:hover {
     text-decoration: underline;

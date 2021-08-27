@@ -40,6 +40,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit, status }) => {
       createdAt: getDateOfLastUpdate(),
       updatedAt: getDateOfLastUpdate(),
       importance: selectedOption,
+      isDrag: false,
     });
 
     onSubmit(false);
