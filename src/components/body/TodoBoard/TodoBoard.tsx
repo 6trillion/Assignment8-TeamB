@@ -111,9 +111,9 @@ function TodoBoard({
     dispatch({ type: 'CHANGE', todoListCopy });
   };
 
-  const itemCount: number = todoList.filter(
-    item => item.status === status,
-  ).length;
+  const itemCount: number = todoList
+    .filter(applyAllFilters)
+    .filter(item => item.status === status).length;
 
   return (
     <BoardWrapper data-status={status} onDragEnter={onDragEnter}>
