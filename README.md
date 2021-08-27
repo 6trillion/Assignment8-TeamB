@@ -1,19 +1,20 @@
 # [Assignment 8] 모두 컴퍼니
 
-----
+---
 
 ### 🏕 배포 주소
 
 - 아래 URL을 클릭하면 배포된 페이지로 이동합니다. <br>
   https://www.google.com/
 
-----
+---
 
 ## ✨ 설치 및 시작방법
 
 - clone 후 아래 명령어를 터미널에 차례대로 입력하세요.
 
 ### 설치
+
 ```
  yarn
 ```
@@ -90,3 +91,4 @@ yarn start
 - 정렬 알고리즘: https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=gi_balja&logNo=221245300411
 - Context API: https://react.vlpt.us/basic/22-context-dispatch.html
 - 배포: https://velog.io/@ansfls/Heroku%EB%A1%9C-%EA%B0%84%EB%8B%A8%ED%95%98%EA%B2%8C-%EC%9B%B9-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0
+```
