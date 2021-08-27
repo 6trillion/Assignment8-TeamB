@@ -1,6 +1,12 @@
+const dateFormat = (n: number): string => (n < 10 ? `0${n}` : `${n}`);
+
 const getDateOfLastUpdate = (): string => {
-  const date = new Date().toISOString().slice(0, 10);
-  return date;
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const date = now.getDate();
+
+  return `${year}-${dateFormat(month)}-${dateFormat(date)}`;
 };
 
 export default getDateOfLastUpdate;

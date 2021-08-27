@@ -2,6 +2,7 @@ import React, { ReactElement, useState, MutableRefObject } from 'react';
 import { PlusButton, TodoItem, TodoInput } from 'components/body';
 import { ITodo } from 'types/index';
 import { useTodosDispatch } from 'utils/TodosContext';
+import { getDateOfLastUpdate } from 'utils';
 import styled from 'styled-components';
 
 interface TodoBoardProps {
@@ -56,15 +57,16 @@ function TodoBoard({
     if (!index) {
       const currentItem: number = draggingItem.current as number;
       const draggingItemContent: ITodo = todoListCopy[currentItem];
+      const anotherStatus = (e.target as HTMLElement).dataset.status as string;
       let lastIndexOfOtherStatus: number = todoListCopy
         .slice()
         .reverse()
-        .findIndex(
-          todo => todo.status === (e.target as HTMLElement).dataset.status,
-        );
+        .findIndex(todo => todo.status === anotherStatus);
 
-      draggingItemContent.status = (e.target as HTMLElement).dataset
-        .status as string;
+      if (draggingItemContent.status !== anotherStatus) {
+        draggingItemContent.updatedAt = getDateOfLastUpdate();
+        draggingItemContent.status = anotherStatus;
+      }
 
       if (lastIndexOfOtherStatus === -1) {
         todoListCopy.splice(draggingItem.current as number, 1);
@@ -103,7 +105,10 @@ function TodoBoard({
     const draggingItemContent: ITodo = todoListCopy[draggingItem.current];
     const dragOverItemContent: ITodo = todoListCopy[dragoverItem.current];
 
-    draggingItemContent.status = dragOverItemContent.status;
+    if (draggingItemContent.status !== dragOverItemContent.status) {
+      draggingItemContent.updatedAt = getDateOfLastUpdate();
+      draggingItemContent.status = dragOverItemContent.status;
+    }
 
     todoListCopy.splice(draggingItem.current, 1);
     todoListCopy.splice(dragoverItem.current, 0, draggingItemContent);
