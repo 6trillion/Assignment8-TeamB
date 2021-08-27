@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, ReactElement, useState } from 'react';
 import { date, Importance } from 'types/index';
 import { DATE_FORMAT } from 'constants/index';
+import { LongButton } from 'components/body/TodoSideTab/TodoItemDetail';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -154,8 +155,8 @@ function Filter({
         />
       </DateRow>
       <ButtonRow>
-        <button onClick={onApplyButtonClick}>적용</button>
-        <button onClick={handleClose}>취소</button>
+        <LongButton onClick={onApplyButtonClick}>적용</LongButton>
+        <LongButton onClick={handleClose}>취소</LongButton>
       </ButtonRow>
     </FilterWrapper>
   );
@@ -241,17 +242,9 @@ const DateRow = styled(Row)`
 `;
 
 const ButtonRow = styled(Row)`
+  flex-direction: column;
   border-top: 1px solid #e1e4e8;
   justify-content: space-around;
-
-  button {
-    flex: 1;
-    padding: 0.8rem;
-    margin: 0 0.8rem;
-    border: 1px solid #dcdcdc;
-    border-radius: 0.8rem;
-    cursor: pointer;
-  }
 
   & > :first-child {
     background-color: #1890ff;
