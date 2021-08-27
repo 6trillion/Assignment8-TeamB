@@ -7,7 +7,6 @@ const localTodosList = storage.load();
 const TodosStateContext = createContext<TodosState>(localTodosList);
 
 type Action =
-  // 수정
   | {
       type: 'CREATE';
       taskName: string;
@@ -25,7 +24,7 @@ type Action =
       newImportance: string;
     }
   | { type: 'REMOVE'; id: number }
-  | { type: 'TEST'; listCopy: ITodo[] };
+  | { type: 'CHANGE'; todoListCopy: ITodo[] };
 
 type TodosDispatch = Dispatch<Action>;
 const TodosDispatchContext = createContext<TodosDispatch | undefined>(
@@ -48,7 +47,6 @@ function todosReducer(state: TodosState, action: Action): TodosState {
       return state.filter(todo => todo.id !== action.id);
     case 'UPDATE':
       return state.map(todo => {
-        console.log(todo.id === action.id);
         return todo.id === action.id
           ? {
               ...todo,
@@ -58,8 +56,8 @@ function todosReducer(state: TodosState, action: Action): TodosState {
             }
           : todo;
       });
-    case 'TEST':
-      return [...action.listCopy];
+    case 'CHANGE':
+      return [...action.todoListCopy];
     default:
       throw new Error('Unhandled action');
   }
@@ -69,7 +67,7 @@ export function TodosContextProvider({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): React.ReactElement {
   const [todos, dispatch] = useReducer(todosReducer, localTodosList);
   storage.save(todos);
   return (
@@ -81,13 +79,13 @@ export function TodosContextProvider({
   );
 }
 
-export function useTodosState() {
+export function useTodosState(): ITodo[] {
   const state = useContext(TodosStateContext);
   if (!state) throw new Error('TodosProvider not found!');
   return state;
 }
 
-export function useTodosDispatch() {
+export function useTodosDispatch(): TodosDispatch {
   const dispatch = useContext(TodosDispatchContext);
   if (!dispatch) throw new Error('TodosProvider not found!');
   return dispatch;

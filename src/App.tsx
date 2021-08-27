@@ -1,9 +1,8 @@
 import { ReactElement, useState } from 'react';
 import { TodoBody } from 'components/body';
-import Header from 'components/header/Header';
+import { Header } from 'components/header';
 import { DATE_FORMAT } from 'constants/index';
 import { date, Importance, ITodo } from 'types/index';
-
 import { TodosContextProvider } from 'utils/TodosContext';
 import GlobalStyle from 'styles/GlobalStyle';
 
@@ -28,7 +27,6 @@ function App(): ReactElement {
 
   const importanceFilter = (todo: ITodo): boolean => {
     const { high, low, none } = importance;
-
     if (!high && !low && !none) return true;
 
     return importance[todo.importance];

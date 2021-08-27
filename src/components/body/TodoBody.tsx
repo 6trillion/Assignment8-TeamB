@@ -14,11 +14,11 @@ function TodoBody({ applyAllFilters }: TodoBodyProps): ReactElement {
   const draggingItem = useRef<number | null>(null);
   const dragoverItem = useRef<number | null>(null);
 
-  const onDragEnter = (e: any) => {
+  const onDragEnter = (e: React.DragEvent<HTMLElement>): void => {
     e.preventDefault();
   };
 
-  const onDragOver = (e: any) => {
+  const onDragOver = (e: React.DragEvent<HTMLElement>): void => {
     e.preventDefault();
   };
 
@@ -52,8 +52,6 @@ function TodoBody({ applyAllFilters }: TodoBodyProps): ReactElement {
   );
 }
 
-export default TodoBody;
-
 const BodyWrapper = styled.div`
   max-width: 100rem;
   display: flex;
@@ -61,3 +59,5 @@ const BodyWrapper = styled.div`
   padding-top: 10rem;
   box-sizing: border-box;
 `;
+
+export default TodoBody;

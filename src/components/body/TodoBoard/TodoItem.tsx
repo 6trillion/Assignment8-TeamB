@@ -1,8 +1,7 @@
 import { ReactElement, useState, useEffect } from 'react';
-import TodoSideTab from 'components/body/TodoSideTab';
-import TodoItemDetail from 'components/body/TodoItemDetail';
-import { useSideTab } from 'utils/useSideTab';
+import { TodoSideTab, TodoItemDetail } from 'components/body';
 import { STATUS } from 'constants/index';
+import { useSideTab } from 'utils/index';
 import styled from 'styled-components';
 
 interface TodoItemProps {
@@ -13,7 +12,7 @@ interface TodoItemProps {
   createdAt: string;
   updatedAt: string;
   importance: string;
-  handleDragStart: any;
+  handleDragStart: (e: React.DragEvent<HTMLLIElement>, id: number) => void;
 }
 
 function TodoItem({
@@ -34,9 +33,9 @@ function TodoItem({
     onItemClick,
     onAnimationEnd,
   } = useSideTab();
-  const [statIcon, setStatIcon] = useState('🤍');
-  const [importanceIcon, setImportanceIcon] = useState('');
-  const [isDrag, setIsDrag] = useState(false);
+  const [statIcon, setStatIcon] = useState<string>('🤍');
+  const [importanceIcon, setImportanceIcon] = useState<string>('');
+  const [isDrag, setIsDrag] = useState<boolean>(false);
 
   useEffect(() => {
     checkStatus();
@@ -74,15 +73,12 @@ function TodoItem({
     }
   };
 
-  const onDragStart = (e: any) => {
+  const onDragStart = (e: React.DragEvent<HTMLLIElement>) => {
     setIsDrag(true);
-    // e.dataTransfer.effectAllowed = 'move';
-    // e.dataTransfer.setData('text/html', e.target);
-    // e.dataTransfer.setDragImage(e.target, 30, 30);
     handleDragStart(e, index);
   };
 
-  const onDragEnd = (e: any) => {
+  const onDragEnd = () => {
     setIsDrag(false);
   };
 
@@ -124,8 +120,6 @@ function TodoItem({
     </>
   );
 }
-
-export default TodoItem;
 
 export const ItemWrapper = styled.li<{ isDrag: boolean }>`
   display: flex;
@@ -177,3 +171,5 @@ export const BackGround = styled.div`
   background-color: #00000036;
   z-index: 1;
 `;
+
+export default TodoItem;
