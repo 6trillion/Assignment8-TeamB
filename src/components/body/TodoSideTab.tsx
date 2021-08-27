@@ -1,10 +1,12 @@
 import React from 'react';
+import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
+
 import styled, { keyframes } from 'styled-components';
 
 interface TodoSideTabProps {
   fade: boolean;
-  setIsOpen: any;
-  onAnimationEnd: any;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  onAnimationEnd: () => void;
   children: React.ReactElement;
 }
 

@@ -2,7 +2,6 @@ import { ReactElement, useState, useEffect } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'constants/index';
 import styled from 'styled-components';
-import 'styles/reset.css';
 
 interface TodoItemDetailProps {
   id: number;

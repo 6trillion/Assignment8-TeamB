@@ -5,6 +5,7 @@ import Header from 'components/header/Header';
 import { DATE_FORMAT } from 'constants/index';
 import { date, Importance, ITodo } from 'types/index';
 import { TodosContextProvider } from 'constants/index';
+import GlobalStyle from 'styles/GlobalStyle';
 
 function App(): ReactElement {
   const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);
@@ -31,6 +32,7 @@ function App(): ReactElement {
 
   return (
     <>
+      <GlobalStyle />
       <Header
         createdAtPeriod={createdAtPeriod}
         setCreatedAtPeriod={setCreatedAtPeriod}
