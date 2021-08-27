@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import { TodoBoard } from 'components/body';
 import { STATUS, TODO_STATUS_TEXT, useTodosState } from 'constants/index';
 import styled from 'styled-components';
-import 'styles/reset.css';
 
 interface TodoBodyProps {
   createdAtFilter: ({ createdAt }: { createdAt: string }) => boolean;
