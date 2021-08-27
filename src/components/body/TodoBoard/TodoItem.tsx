@@ -13,6 +13,7 @@ interface TodoItemProps {
   updatedAt: string;
   importance: string;
   handleDragStart: (e: React.DragEvent<HTMLLIElement>, id: number) => void;
+  onSubmit: (setDrag: (drag: boolean) => void) => void;
 }
 
 function TodoItem({
@@ -24,6 +25,7 @@ function TodoItem({
   updatedAt,
   importance,
   handleDragStart,
+  onSubmit,
 }: TodoItemProps): ReactElement {
   const {
     isOpen,
@@ -36,6 +38,14 @@ function TodoItem({
   const [statIcon, setStatIcon] = useState<string>('🤍');
   const [importanceIcon, setImportanceIcon] = useState<string>('');
   const [isDrag, setIsDrag] = useState<boolean>(false);
+
+  const [isEnd, setIsEnd] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isEnd) {
+      onSubmit(setIsDrag);
+    }
+  }, [isDrag, isEnd]);
 
   useEffect(() => {
     checkStatus();
@@ -78,7 +88,17 @@ function TodoItem({
     handleDragStart(e, index);
   };
 
-  const onDragEnd = () => {
+  // const onDragEnd = () => {
+  //   //같은 보드에 떨어져야 end가 남
+  //   console.log('onDragEnd');
+  //   setIsEnd(true);
+  //   setIsDrag(false);
+  // };
+
+  const onDrop = () => {
+    // 마우스에서 손 떼기만 하면 실행됨
+    console.log('end222');
+    setIsEnd(true);
     setIsDrag(false);
   };
 
@@ -89,7 +109,8 @@ function TodoItem({
         isDrag={isDrag}
         draggable
         onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
+        // onDragEnd={onDragEnd}
+        onDrop={onDrop}
       >
         <ItemStatusIcon>{statIcon}</ItemStatusIcon>
         <ItemContentWrapper>

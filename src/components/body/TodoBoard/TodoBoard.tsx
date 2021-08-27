@@ -1,4 +1,9 @@
-import React, { ReactElement, useState, MutableRefObject } from 'react';
+import React, {
+  ReactElement,
+  useState,
+  MutableRefObject,
+  useEffect,
+} from 'react';
 import { PlusButton, TodoItem, TodoInput } from 'components/body';
 import { ITodo } from 'types/index';
 import { useTodosDispatch } from 'utils/TodosContext';
@@ -23,12 +28,9 @@ function TodoBoard({
 }: TodoBoardProps): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const dispatch = useTodosDispatch();
+  const [statChange, setStatChange] = useState<boolean>(false);
 
-  const handleTodoInput = (data: boolean): void => {
-    setOpen(data);
-  };
-
-  const handlePlusBtn = (data: boolean): void => {
+  const handleSetOpen = (data: boolean): void => {
     setOpen(data);
   };
 
@@ -70,6 +72,7 @@ function TodoBoard({
         draggingItem.current = 0;
         dragoverItem.current = null;
 
+        //데이터가 하나도 없는 경우
         dispatch({ type: 'CHANGE', todoListCopy });
         return;
       }
@@ -89,6 +92,8 @@ function TodoBoard({
       dragoverItem.current = null;
 
       dispatch({ type: 'CHANGE', todoListCopy });
+      //status를 바꾸는 경우
+      setStatChange(true);
       return;
     }
 
@@ -108,6 +113,7 @@ function TodoBoard({
     draggingItem.current = dragoverItem.current;
     dragoverItem.current = null;
 
+    //같은 보드에서 변경할 때 데이터변경
     dispatch({ type: 'CHANGE', todoListCopy });
   };
 
@@ -115,15 +121,24 @@ function TodoBoard({
     item => item.status === status,
   ).length;
 
+  const handleIsDrag = (setIsDrag: (data: boolean) => void) => {
+    // statChange ? setIsDrag(true) : setIsDrag(false);
+    if (statChange) {
+      setIsDrag(true);
+    } else {
+      setIsDrag(false);
+    }
+  };
+
   return (
     <BoardWrapper data-status={status} onDragEnter={onDragEnter}>
       <BoardTitle>
         <BoardItemCount>{itemCount}</BoardItemCount>
         <BoardTitleText>{title}</BoardTitleText>
-        <PlusButton onSubmit={handlePlusBtn} open={open} />
+        <PlusButton onSubmit={handleSetOpen} open={open} />
       </BoardTitle>
       <ItemWrapper>
-        {open && <TodoInput onSubmit={handleTodoInput} status={status} />}
+        {open && <TodoInput onSubmit={handleSetOpen} status={status} />}
         {todoList.map((todo, index) => {
           if (!applyAllFilters(todo) || todo.status !== status) return null;
 
@@ -138,6 +153,7 @@ function TodoBoard({
               updatedAt={todo.updatedAt}
               importance={todo.importance}
               handleDragStart={handleDragStart}
+              onSubmit={handleIsDrag}
             />
           );
         })}
