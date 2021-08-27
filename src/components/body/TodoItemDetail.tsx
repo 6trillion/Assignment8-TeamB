@@ -3,7 +3,6 @@ import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'utils/TodosContext';
 import getDateOfLastUpdate from 'utils/getDateOfLastUpdate';
 import styled from 'styled-components';
-import 'styles/reset.css';
 
 interface TodoItemDetailProps {
   id: number;

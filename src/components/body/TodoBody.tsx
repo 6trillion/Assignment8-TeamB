@@ -3,7 +3,6 @@ import { TodoBoard } from 'components/body';
 import { STATUS, TODO_STATUS_TEXT } from 'constants/index';
 import { useTodosState } from 'utils/TodosContext';
 import styled from 'styled-components';
-import 'styles/reset.css';
 
 interface TodoBodyProps {
   createdAtFilter: ({ createdAt }: { createdAt: string }) => boolean;
