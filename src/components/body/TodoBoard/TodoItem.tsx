@@ -1,29 +1,30 @@
 import { ReactElement, useState, useEffect } from 'react';
-import TodoSideTab from 'components/body/TodoSideTab';
-import TodoItemDetail from 'components/body/TodoItemDetail';
-import { useSideTab } from 'utils/useSideTab';
+import { TodoSideTab, TodoItemDetail } from 'components/body';
 import { STATUS } from 'constants/index';
+import { useSideTab } from 'utils/index';
 import styled from 'styled-components';
 
 interface TodoItemProps {
   id: number;
+  index: number;
   taskName: string;
   status: string;
   createdAt: string;
   updatedAt: string;
   importance: string;
+  handleDragStart: (e: React.DragEvent<HTMLLIElement>, id: number) => void;
 }
 
 function TodoItem({
   id,
+  index,
   taskName,
   status,
   createdAt,
   updatedAt,
   importance,
+  handleDragStart,
 }: TodoItemProps): ReactElement {
-  const [statIcon, setStatIcon] = useState('🤍');
-  const [importanceIcon, setImportanceIcon] = useState('');
   const {
     isOpen,
     setIsOpen,
@@ -32,6 +33,9 @@ function TodoItem({
     onItemClick,
     onAnimationEnd,
   } = useSideTab();
+  const [statIcon, setStatIcon] = useState<string>('🤍');
+  const [importanceIcon, setImportanceIcon] = useState<string>('');
+  const [isDrag, setIsDrag] = useState<boolean>(false);
 
   useEffect(() => {
     checkStatus();
@@ -69,9 +73,24 @@ function TodoItem({
     }
   };
 
+  const onDragStart = (e: React.DragEvent<HTMLLIElement>) => {
+    setIsDrag(true);
+    handleDragStart(e, index);
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
   return (
     <>
-      <ItemWrapper>
+      <ItemWrapper
+        data-index={index}
+        isDrag={isDrag}
+        draggable
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
         <ItemStatusIcon>{statIcon}</ItemStatusIcon>
         <ItemContentWrapper>
           <ItemTitle onClick={onItemClick}>{taskName}</ItemTitle>
@@ -102,9 +121,7 @@ function TodoItem({
   );
 }
 
-export default TodoItem;
-
-export const ItemWrapper = styled.li`
+export const ItemWrapper = styled.li<{ isDrag: boolean }>`
   display: flex;
   line-height: 2rem;
   font-size: 1.5rem;
@@ -112,8 +129,13 @@ export const ItemWrapper = styled.li`
   background-color: #fff;
   border: 1px solid #eeeeee;
   border-radius: 1rem;
+  margin: 0 1.8rem;
   margin-bottom: 1rem;
   padding: 1.5rem 0.8rem;
+  cursor: move;
+
+  opacity: ${({ isDrag }) => (isDrag ? 0.5 : 1)};
+  background-color: ${({ isDrag }) => (isDrag ? '#e0e0e0' : '#fff')};
 `;
 
 const ItemStatusIcon = styled.div`
@@ -128,6 +150,11 @@ const ItemTitle = styled.div`
   font-weight: 600;
   cursor: pointer;
   color: #242424;
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const ItemContent = styled.div`
@@ -144,3 +171,5 @@ export const BackGround = styled.div`
   background-color: #00000036;
   z-index: 1;
 `;
+
+export default TodoItem;

@@ -21,11 +21,11 @@ const TodoItemDetail = ({
   updatedAt,
   importance,
 }: TodoItemDetailProps): ReactElement => {
-  const [edit, setEdit] = useState(false);
-  const [textFirstEdit, setTextFirstEdit] = useState(true);
-  const [newText, setNewText] = useState(taskName);
-  const [newImportance, setNewImportance] = useState(importance);
-  const [height, setHeight] = useState(0);
+  const [edit, setEdit] = useState<boolean>(false);
+  const [textFirstEdit, setTextFirstEdit] = useState<boolean>(true);
+  const [newText, setNewText] = useState<string>(taskName);
+  const [newImportance, setNewImportance] = useState<string>(importance);
+  const [height, setHeight] = useState<number>(0);
 
   const dispatch = useTodosDispatch();
   const handleRemove = () => dispatch({ type: 'REMOVE', id });
@@ -33,10 +33,11 @@ const TodoItemDetail = ({
   useEffect(() => {
     const textareaDiv = document.getElementById('taskName');
     let divHeight = 0;
+
     if (textareaDiv !== null) {
       divHeight = textareaDiv.clientHeight;
     }
-    console.log(divHeight);
+
     setHeight(divHeight);
   }, []);
 
@@ -46,10 +47,8 @@ const TodoItemDetail = ({
       return;
     }
 
-    if (edit) {
-      updateData();
-      setEdit(!edit);
-    }
+    updateData();
+    setEdit(!edit);
   };
 
   const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {

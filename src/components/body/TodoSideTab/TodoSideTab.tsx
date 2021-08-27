@@ -1,28 +1,24 @@
-import React from 'react';
-import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
-
+import { Dispatch, SetStateAction, ReactElement } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 interface TodoSideTabProps {
   fade: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   onAnimationEnd: () => void;
-  children: React.ReactElement;
+  children: ReactElement;
 }
 
 function TodoSideTab({
   fade,
   children,
   onAnimationEnd,
-}: TodoSideTabProps): React.ReactElement {
+}: TodoSideTabProps): ReactElement {
   return (
     <SideTabWrapper onAnimationEnd={onAnimationEnd} fade={fade}>
       {children}
     </SideTabWrapper>
   );
 }
-
-export default TodoSideTab;
 
 const fadeIn = keyframes`
  from {
@@ -59,3 +55,5 @@ const SideTabWrapper = styled.div<{ fade: boolean }>`
   animation-fill-mode: forwards;
   animation-name: ${({ fade }) => (fade ? fadeIn : fadeOut)};
 `;
+
+export default TodoSideTab;

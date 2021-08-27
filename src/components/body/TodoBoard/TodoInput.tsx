@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
 import { useTodosDispatch } from 'utils/TodosContext';
-import getDateOfLastUpdate from 'utils/getDateOfLastUpdate';
+import { getDateOfLastUpdate } from 'utils/index';
 import styled from 'styled-components';
 
 interface TodoInputProps {
@@ -44,7 +44,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit, status }) => {
       <InsertForm onSubmit={handleSubmit}>
         <CustomInput
           autoFocus
-          placeholder="할 일을 입력해주세용"
+          placeholder="할 일을 입력해주세요!"
           value={value}
           onChange={e => setValue(e.target.value)}
         />
@@ -72,8 +72,6 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit, status }) => {
     </TodoInputWrapper>
   );
 };
-
-export default TodoInput;
 
 const TodoInputWrapper = styled.div`
   display: flex;
@@ -122,3 +120,5 @@ const CancelButton = styled(Button)`
   background-color: #fff;
   border: 1px solid #d8d8d8;
 `;
+
+export default TodoInput;

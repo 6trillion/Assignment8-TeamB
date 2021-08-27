@@ -1,9 +1,8 @@
 import { ReactElement, useState } from 'react';
 import { TodoBody } from 'components/body';
-import Header from 'components/header/Header';
+import { Header } from 'components/header';
 import { DATE_FORMAT } from 'constants/index';
 import { date, Importance, ITodo } from 'types/index';
-
 import { TodosContextProvider } from 'utils/TodosContext';
 import GlobalStyle from 'styles/GlobalStyle';
 
@@ -15,7 +14,11 @@ function App(): ReactElement {
     none: false,
   });
 
-  const createdAtFilter = ({ createdAt }: { createdAt: string }): boolean => {
+  const applyAllFilters = (todo: ITodo) => {
+    return createdAtFilter(todo.createdAt) && importanceFilter(todo);
+  };
+
+  const createdAtFilter = (createdAt: string): boolean => {
     const startDate: string = createdAtPeriod[0] ?? '';
     const endDate: string = createdAtPeriod[1] ?? DATE_FORMAT;
 
@@ -24,7 +27,6 @@ function App(): ReactElement {
 
   const importanceFilter = (todo: ITodo): boolean => {
     const { high, low, none } = importance;
-
     if (!high && !low && !none) return true;
 
     return importance[todo.importance];
@@ -40,10 +42,7 @@ function App(): ReactElement {
         importance={importance}
       />
       <TodosContextProvider>
-        <TodoBody
-          createdAtFilter={createdAtFilter}
-          importanceFilter={importanceFilter}
-        />
+        <TodoBody applyAllFilters={applyAllFilters} />
       </TodosContextProvider>
     </>
   );
