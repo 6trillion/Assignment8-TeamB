@@ -27,6 +27,12 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit, status }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (value === '') {
+      alert('내용을 입력해주세요!');
+      return;
+    }
+
     dispatch({
       type: 'CREATE',
       taskName: value,
