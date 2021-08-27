@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, ReactElement } from 'react';
-import styled from 'styled-components';
-import TodoSideTab from 'components/body/TodoSideTab';
-import Filter from 'components/Filter/Filter';
+import TodoSideTab from 'components/body/TodoSideTab/TodoSideTab';
+import { BackGround } from 'components/body/TodoBoard/TodoItem';
+import { Filter } from 'components/header';
 import { date, Importance } from 'types/index';
-import { useSideTab } from 'utils/useSideTab';
-import { BackGround } from 'components/body/TodoItem';
+import { useSideTab } from 'utils/index';
+import styled from 'styled-components';
+
 interface HeaderProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
@@ -46,11 +47,9 @@ function Header({
             <Filter
               createdAtPeriod={createdAtPeriod}
               setCreatedAtPeriod={setCreatedAtPeriod}
-              fade={fade}
-              setFade={setFade}
-              setImportance={setImportance}
-              setIsOpen={setIsOpen}
               importance={importance}
+              setImportance={setImportance}
+              setFade={setFade}
             />
           </TodoSideTab>
           <BackGround onClick={onBackgroundClick}></BackGround>
@@ -62,11 +61,12 @@ function Header({
 
 const HeaderLayout = styled.div`
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px 0px;
   display: flex;
-  align-items: center;
-  position: fixed;
   justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px 0px;
+  position: fixed;
 `;
 
 const HeaderLayer = styled.div``;
@@ -82,13 +82,14 @@ const HeaderImg = styled.img`
 `;
 
 const ButtonWrap = styled.button`
-  background: skyblue;
-  padding: 1.5rem;
   color: white;
   border: 2px solid skyblue;
   border-radius: 10px;
-  margin-right: 5%;
+  background: skyblue;
   cursor: pointer;
+  margin-right: 5%;
+  padding: 1.5rem;
+
   &:hover {
     background-color: #48b4e0;
     border: 2px solid #48b4e0;
