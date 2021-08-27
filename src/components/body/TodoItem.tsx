@@ -7,23 +7,25 @@ import styled from 'styled-components';
 
 interface TodoItemProps {
   id: number;
+  index: number;
   taskName: string;
   status: string;
   createdAt: string;
   updatedAt: string;
   importance: string;
+  handleDragStart: any;
 }
 
 function TodoItem({
   id,
+  index,
   taskName,
   status,
   createdAt,
   updatedAt,
   importance,
+  handleDragStart,
 }: TodoItemProps): ReactElement {
-  const [statIcon, setStatIcon] = useState('🤍');
-  const [importanceIcon, setImportanceIcon] = useState('');
   const {
     isOpen,
     setIsOpen,
@@ -32,6 +34,9 @@ function TodoItem({
     onItemClick,
     onAnimationEnd,
   } = useSideTab();
+  const [statIcon, setStatIcon] = useState('🤍');
+  const [importanceIcon, setImportanceIcon] = useState('');
+  const [isDrag, setIsDrag] = useState(false);
 
   useEffect(() => {
     checkStatus();
@@ -69,9 +74,27 @@ function TodoItem({
     }
   };
 
+  const onDragStart = (e: any) => {
+    setIsDrag(true);
+    // e.dataTransfer.effectAllowed = 'move';
+    // e.dataTransfer.setData('text/html', e.target);
+    // e.dataTransfer.setDragImage(e.target, 30, 30);
+    handleDragStart(e, index);
+  };
+
+  const onDragEnd = (e: any) => {
+    setIsDrag(false);
+  };
+
   return (
     <>
-      <ItemWrapper>
+      <ItemWrapper
+        data-index={index}
+        isDrag={isDrag}
+        draggable
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
         <ItemStatusIcon>{statIcon}</ItemStatusIcon>
         <ItemContentWrapper>
           <ItemTitle onClick={onItemClick}>{taskName}</ItemTitle>
@@ -104,7 +127,7 @@ function TodoItem({
 
 export default TodoItem;
 
-export const ItemWrapper = styled.li`
+export const ItemWrapper = styled.li<{ isDrag: boolean }>`
   display: flex;
   line-height: 2rem;
   font-size: 1.5rem;
@@ -112,8 +135,13 @@ export const ItemWrapper = styled.li`
   background-color: #fff;
   border: 1px solid #eeeeee;
   border-radius: 1rem;
+  margin: 0 1.8rem;
   margin-bottom: 1rem;
   padding: 1.5rem 0.8rem;
+  cursor: move;
+
+  opacity: ${({ isDrag }) => (isDrag ? 0.5 : 1)};
+  background-color: ${({ isDrag }) => (isDrag ? '#e0e0e0' : '#fff')};
 `;
 
 const ItemStatusIcon = styled.div`
@@ -128,6 +156,11 @@ const ItemTitle = styled.div`
   font-weight: 600;
   cursor: pointer;
   color: #242424;
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const ItemContent = styled.div`

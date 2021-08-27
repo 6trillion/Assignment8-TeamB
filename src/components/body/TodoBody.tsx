@@ -1,38 +1,52 @@
-import { ReactElement } from 'react';
+import { ReactElement, useRef } from 'react';
+import styled from 'styled-components';
 import { TodoBoard } from 'components/body';
 import { STATUS, TODO_STATUS_TEXT } from 'constants/index';
+import { ITodo } from 'types/index';
 import { useTodosState } from 'utils/TodosContext';
-import styled from 'styled-components';
 
 interface TodoBodyProps {
-  createdAtFilter: ({ createdAt }: { createdAt: string }) => boolean;
-  importanceFilter: any;
+  applyAllFilters: (todo: ITodo) => boolean;
 }
 
-function TodoBody({
-  createdAtFilter,
-  importanceFilter,
-}: TodoBodyProps): ReactElement {
-  const todoList = useTodosState()
-    .filter(createdAtFilter)
-    .filter(importanceFilter);
+function TodoBody({ applyAllFilters }: TodoBodyProps): ReactElement {
+  const todoList = useTodosState();
+  const draggingItem = useRef<number | null>(null);
+  const dragoverItem = useRef<number | null>(null);
+
+  const onDragEnter = (e: any) => {
+    e.preventDefault();
+  };
+
+  const onDragOver = (e: any) => {
+    e.preventDefault();
+  };
 
   return (
-    <BodyWrapper>
+    <BodyWrapper onDragEnter={onDragEnter} onDragOver={onDragOver}>
       <TodoBoard
         title={TODO_STATUS_TEXT.TODO}
         status={STATUS.NOT_STARTED}
-        todolist={todoList.filter(item => item.status === STATUS.NOT_STARTED)}
+        todoList={todoList}
+        applyAllFilters={applyAllFilters}
+        draggingItem={draggingItem}
+        dragoverItem={dragoverItem}
       />
       <TodoBoard
         title={TODO_STATUS_TEXT.ON_PROGRESS}
         status={STATUS.ONGOING}
-        todolist={todoList.filter(item => item.status === STATUS.ONGOING)}
+        todoList={todoList}
+        applyAllFilters={applyAllFilters}
+        draggingItem={draggingItem}
+        dragoverItem={dragoverItem}
       />
       <TodoBoard
         title={TODO_STATUS_TEXT.DONE}
         status={STATUS.FINISHED}
-        todolist={todoList.filter(item => item.status === STATUS.FINISHED)}
+        todoList={todoList}
+        applyAllFilters={applyAllFilters}
+        draggingItem={draggingItem}
+        dragoverItem={dragoverItem}
       />
     </BodyWrapper>
   );
@@ -45,4 +59,5 @@ const BodyWrapper = styled.div`
   display: flex;
   margin: 0 auto;
   padding-top: 10rem;
+  box-sizing: border-box;
 `;

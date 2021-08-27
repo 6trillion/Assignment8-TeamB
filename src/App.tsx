@@ -15,7 +15,11 @@ function App(): ReactElement {
     none: false,
   });
 
-  const createdAtFilter = ({ createdAt }: { createdAt: string }): boolean => {
+  const applyAllFilters = (todo: ITodo) => {
+    return createdAtFilter(todo.createdAt) && importanceFilter(todo);
+  };
+
+  const createdAtFilter = (createdAt: string): boolean => {
     const startDate: string = createdAtPeriod[0] ?? '';
     const endDate: string = createdAtPeriod[1] ?? DATE_FORMAT;
 
@@ -40,10 +44,7 @@ function App(): ReactElement {
         importance={importance}
       />
       <TodosContextProvider>
-        <TodoBody
-          createdAtFilter={createdAtFilter}
-          importanceFilter={importanceFilter}
-        />
+        <TodoBody applyAllFilters={applyAllFilters} />
       </TodosContextProvider>
     </>
   );
