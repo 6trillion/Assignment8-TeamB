@@ -1,6 +1,7 @@
 import { ReactElement, useState, useEffect } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
-import { useTodosDispatch } from 'constants/index';
+import { useTodosDispatch } from 'utils/TodosContext';
+import getDateOfLastUpdate from 'utils/getDateOfLastUpdate';
 import styled from 'styled-components';
 
 interface TodoItemDetailProps {
@@ -27,6 +28,7 @@ const TodoItemDetail = ({
   const [height, setHeight] = useState(0);
 
   const dispatch = useTodosDispatch();
+  const handleRemove = () => dispatch({ type: 'REMOVE', id });
 
   useEffect(() => {
     const textareaDiv = document.getElementById('taskName');
@@ -48,11 +50,6 @@ const TodoItemDetail = ({
       updateData();
       setEdit(!edit);
     }
-  };
-
-  const getDateOfLastUpdate = () => {
-    const date = new Date().toISOString().slice(0, 10);
-    return date;
   };
 
   const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +141,7 @@ const TodoItemDetail = ({
       </div>
       <ButtonWrapper>
         <LongButton onClick={handleEdit}>{!edit ? 'EDIT' : 'OK'}</LongButton>
-        <RedButton>DELETE</RedButton>
+        <RedButton onClick={handleRemove}>DELETE</RedButton>
       </ButtonWrapper>
     </TodoItemDetailWrapper>
   );
@@ -164,7 +161,6 @@ const SideTabTitle = styled.div`
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 3rem;
-
   span:first-child {
     margin-right: 0.8rem;
   }

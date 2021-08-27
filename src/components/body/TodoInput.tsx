@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
-import { useTodosDispatch } from 'constants/index';
+import { useTodosDispatch } from 'utils/TodosContext';
+import getDateOfLastUpdate from 'utils/getDateOfLastUpdate';
 import styled from 'styled-components';
 
 interface TodoInputProps {
   onSubmit: (open: boolean) => void;
+  status: string;
 }
 
-const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
+const TodoInput: React.FC<TodoInputProps> = ({ onSubmit, status }) => {
   const [selectedOption, setSelectedOption] = useState('none');
   const [value, setValue] = useState('');
   const dispatch = useTodosDispatch();
@@ -19,13 +21,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
       : setSelectedOption(currentSelectedId);
   };
 
-  const handleAddButton = () => {
-    onSubmit(false);
-    // Add 버튼 눌렀을 시 동작
-  };
-
   const handleCancelButton = () => {
-    // cancel 버튼 눌렀을 시 동작
     onSubmit(false);
   };
 
@@ -34,6 +30,10 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
     dispatch({
       type: 'CREATE',
       taskName: value,
+      status: status,
+      createdAt: getDateOfLastUpdate(),
+      updatedAt: getDateOfLastUpdate(),
+      importance: selectedOption,
     });
 
     onSubmit(false);

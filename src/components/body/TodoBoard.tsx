@@ -7,10 +7,11 @@ import styled from 'styled-components';
 
 interface TodoBoardProps {
   title: string;
+  status: string;
   todolist: ITodo[];
 }
 
-function TodoBoard({ title, todolist }: TodoBoardProps) {
+function TodoBoard({ title, todolist, status }: TodoBoardProps) {
   const [open, setOpen] = useState(false);
 
   const handleTodoInput = (data: boolean) => {
@@ -29,7 +30,7 @@ function TodoBoard({ title, todolist }: TodoBoardProps) {
         <PlusButton onSubmit={handlePlusBtn} open={open} />
       </BoardTitle>
       <ItemWrapper>
-        {open && <TodoInput onSubmit={handleTodoInput} />}
+        {open && <TodoInput onSubmit={handleTodoInput} status={status} />}
         {todolist.map(todo => (
           <TodoItem
             id={todo.id}
