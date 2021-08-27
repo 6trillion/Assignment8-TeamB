@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Dispatch, SetStateAction, ReactElement, useState } from 'react';
+import { date, Importance } from 'types/index';
+import { DATE_FORMAT } from 'constants/index';
+
 import styled from 'styled-components';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { ReactComponent as FilterSvg } from 'assets/icon/filter.svg';
 import { ReactComponent as CloseSvg } from 'assets/icon/close.svg';
-import { date, Importance } from 'types/index';
-import { DATE_FORMAT } from 'constants/index';
 
 interface FilterProps {
   createdAtPeriod: date[];
@@ -14,7 +15,7 @@ interface FilterProps {
   setImportance: Dispatch<SetStateAction<Importance>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   fade: boolean;
-  setFade: any;
+  setFade: Dispatch<SetStateAction<boolean>>;
 }
 
 function Filter({
