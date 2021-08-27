@@ -32,8 +32,14 @@ function Header({
   return (
     <HeaderLayout>
       <HeaderLayer>
-        <HeaderA href="https://6trillion-todolist.netlify.app/">
-          <HeaderImg src="https://i0.wp.com/www.moduparking.com/wp-content/uploads/2021/02/cropped-BI_모두의주차장RGB-04.png?fit=1063%2C265&ssl=1" />
+        <HeaderA
+          draggable={false}
+          href="https://6trillion-todolist.netlify.app/"
+        >
+          <HeaderImg
+            draggable={false}
+            src="https://i0.wp.com/www.moduparking.com/wp-content/uploads/2021/02/cropped-BI_모두의주차장RGB-04.png?fit=1063%2C265&ssl=1"
+          />
         </HeaderA>
       </HeaderLayer>
       <ButtonWrap onClick={onItemClick}>필터</ButtonWrap>
@@ -73,12 +79,14 @@ const HeaderLayer = styled.div``;
 
 const HeaderA = styled.a`
   cursor: pointer;
+  user-select: none;
 `;
 
 const HeaderImg = styled.img`
   padding: 1rem;
   max-width: 291px;
   margin-left: 10%;
+  user-select: none;
 `;
 
 const ButtonWrap = styled.button`
@@ -89,6 +97,7 @@ const ButtonWrap = styled.button`
   cursor: pointer;
   margin-right: 5%;
   padding: 1.5rem;
+  user-select: none;
 
   &:hover {
     background-color: #48b4e0;

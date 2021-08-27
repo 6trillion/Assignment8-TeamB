@@ -73,7 +73,9 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit, status }) => {
         </CheckBoxWrapper>
         <ButtonWrapper>
           <AddButton type="submit">Add</AddButton>
-          <CancelButton onClick={handleCancelButton}>Cancel</CancelButton>
+          <CancelButton type="reset" onClick={handleCancelButton}>
+            Cancel
+          </CancelButton>
         </ButtonWrapper>
       </InsertForm>
     </TodoInputWrapper>

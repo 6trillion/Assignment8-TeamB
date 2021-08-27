@@ -32,24 +32,25 @@ function App(): ReactElement {
     return importance[todo.importance];
   };
 
-  const onDragOver = (e: any) => {
-    e.preventDefault();
-  };
-
   const todoList = useTodosState();
   const dispatch = useTodosDispatch();
 
-  const onDrop = () => {
-    const test = todoList.filter((todoList: any) => todoList.isDrag);
+  const onDragOver = (e: React.DragEvent<HTMLElement>): void => {
+    e.preventDefault();
+  };
+
+  const onDrop = (): void => {
+    const draggingItem = todoList.filter((todo: ITodo) => todo.isDrag)[0];
+
     dispatch({
       type: 'DRAG',
-      id: test[0].id,
+      id: draggingItem.id,
       isDrag: false,
     });
   };
 
   return (
-    <div onDrop={onDrop} onDragOver={onDragOver}>
+    <div onDragOver={onDragOver} onDrop={onDrop}>
       <GlobalStyle />
       <Header
         createdAtPeriod={createdAtPeriod}
