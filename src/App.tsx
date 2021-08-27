@@ -37,6 +37,7 @@ function App(): ReactElement {
         createdAtPeriod={createdAtPeriod}
         setCreatedAtPeriod={setCreatedAtPeriod}
         setImportance={setImportance}
+        importance={importance}
       />
       <TodosContextProvider>
         <TodoBody

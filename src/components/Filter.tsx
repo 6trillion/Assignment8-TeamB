@@ -8,12 +8,15 @@ import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { ReactComponent as FilterSvg } from 'assets/icon/filter.svg';
 import { ReactComponent as CloseSvg } from 'assets/icon/close.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 interface FilterProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
   setImportance: Dispatch<SetStateAction<Importance>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  importance: Importance;
   fade: boolean;
   setFade: Dispatch<SetStateAction<boolean>>;
 }
@@ -23,16 +26,13 @@ function Filter({
   setCreatedAtPeriod,
   setImportance,
   setIsOpen,
+  importance,
   fade,
   setFade,
 }: FilterProps): ReactElement {
   const [startDate, setStartDate] = useState<date>(createdAtPeriod[0]);
   const [endDate, setEndDate] = useState<date>(createdAtPeriod[1]);
-  const [radioInputs, setRadioInputs] = useState<Importance>({
-    high: false,
-    low: false,
-    none: false,
-  });
+  const [radioInputs, setRadioInputs] = useState<Importance>(importance);
 
   const onStartDateChange = (date: Moment | null) => {
     date ? setStartDate(date.format(DATE_FORMAT)) : setStartDate(null);
@@ -71,6 +71,7 @@ function Filter({
         [e.target.name]: e.target.checked,
       };
     });
+    console.log(radioInputs);
   };
 
   return (
@@ -84,33 +85,51 @@ function Filter({
         <div>중요도</div>
       </TitleRow>
       <ImpotantRow>
-        <Row>
-          <div>high</div>
-          <Input
-            type="checkbox"
-            name="high"
-            checked={radioInputs.high}
-            onChange={onRadioChange}
-          />
-        </Row>
-        <Row>
-          <div>low</div>
-          <Input
-            type="checkbox"
-            name="low"
-            checked={radioInputs.low}
-            onChange={onRadioChange}
-          />
-        </Row>
-        <Row>
-          <div>none</div>
-          <Input
-            type="checkbox"
-            name="none"
-            checked={radioInputs.none}
-            onChange={onRadioChange}
-          />
-        </Row>
+        <Label htmlFor="high" checked={radioInputs.high}>
+          <IRow>
+            <Input
+              type="checkbox"
+              name="high"
+              id="high"
+              checked={radioInputs.high}
+              onChange={onRadioChange}
+            />
+            🔥 high
+            <CheckIcon>
+              <Icon icon={faCheck} />
+            </CheckIcon>
+          </IRow>
+        </Label>
+        <Label htmlFor="low" checked={radioInputs.low}>
+          <IRow>
+            <Input
+              type="checkbox"
+              name="low"
+              id="low"
+              checked={radioInputs.low}
+              onChange={onRadioChange}
+            />
+            🎵 low
+            <CheckIcon>
+              <Icon icon={faCheck} />
+            </CheckIcon>
+          </IRow>
+        </Label>
+        <Label htmlFor="none" checked={radioInputs.none}>
+          <IRow>
+            <Input
+              type="checkbox"
+              name="none"
+              id="none"
+              checked={radioInputs.none}
+              onChange={onRadioChange}
+            />
+            🧨 none
+            <CheckIcon>
+              <Icon icon={faCheck} />
+            </CheckIcon>
+          </IRow>
+        </Label>
       </ImpotantRow>
       <TitleRow>
         <div>생성일</div>
@@ -155,13 +174,42 @@ const FilterWrapper = styled.div`
 `;
 
 const ImpotantRow = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 3rem;
+  margin: 2rem;
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  font-size: 18px;
+`;
+
+const CheckIcon = styled.div`
+  font-size: 1.6rem;
+  display: none;
+`;
+
+const IRow = styled.div`
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  &:hover {
+    background-color: #e6e6e6;
+  }
 `;
 
 const Input = styled.input`
-  margin-left: 10px;
+  display: none;
 `;
+const Label = styled.label<{ checked: boolean }>`
+  cursor: pointer;
+  font-size: 16px;
+  &:active {
+    position: relative;
+    top: 2px;
+  }
+  ${CheckIcon} {
+    display: ${({ checked }) => (checked ? 'flex' : 'none')};
+  }
+`;
+
 const Row = styled.div`
   display: flex;
   align-items: center;

@@ -9,12 +9,14 @@ interface HeaderProps {
   createdAtPeriod: date[];
   setCreatedAtPeriod: Dispatch<SetStateAction<date[]>>;
   setImportance: Dispatch<SetStateAction<Importance>>;
+  importance: Importance;
 }
 
 function Header({
   createdAtPeriod,
   setCreatedAtPeriod,
   setImportance,
+  importance,
 }: HeaderProps): ReactElement {
   const {
     isOpen,
@@ -48,6 +50,7 @@ function Header({
               setFade={setFade}
               setImportance={setImportance}
               setIsOpen={setIsOpen}
+              importance={importance}
             />
           </TodoSideTab>
           <BackGround onClick={onBackgroundClick}></BackGround>
