@@ -1,11 +1,10 @@
 import { ReactElement, useState } from 'react';
 
-import TodoBody from 'components/body/TodoBody';
+import { TodoBody } from 'components/body';
 import Header from 'components/header/Header';
-
 import { DATE_FORMAT } from 'constants/index';
-
 import { date, Importance, ITodo } from 'types/index';
+import { TodosContextProvider } from 'constants/index';
 
 function App(): ReactElement {
   const [createdAtPeriod, setCreatedAtPeriod] = useState<date[]>([null, null]);
@@ -38,10 +37,12 @@ function App(): ReactElement {
         setImportance={setImportance}
         importance={importance}
       />
-      <TodoBody
-        createdAtFilter={createdAtFilter}
-        importanceFilter={importanceFilter}
-      />
+      <TodosContextProvider>
+        <TodoBody
+          createdAtFilter={createdAtFilter}
+          importanceFilter={importanceFilter}
+        />
+      </TodosContextProvider>
     </>
   );
 }

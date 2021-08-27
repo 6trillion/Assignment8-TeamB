@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import CustomCheckBox from 'components/Form/CustomCheckBox';
+import { useTodosDispatch } from 'constants/index';
+import styled from 'styled-components';
 
 interface TodoInputProps {
   onSubmit: (open: boolean) => void;
@@ -8,11 +9,14 @@ interface TodoInputProps {
 
 const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
   const [selectedOption, setSelectedOption] = useState('none');
+  const [value, setValue] = useState('');
+  const dispatch = useTodosDispatch();
 
   const handleCheckEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentSelectedId = e.target.id;
-    setSelectedOption(currentSelectedId);
-    console.log(currentSelectedId);
+    currentSelectedId === selectedOption
+      ? setSelectedOption('none')
+      : setSelectedOption(currentSelectedId);
   };
 
   const handleAddButton = () => {
@@ -25,29 +29,46 @@ const TodoInput: React.FC<TodoInputProps> = ({ onSubmit }) => {
     onSubmit(false);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch({
+      type: 'CREATE',
+      taskName: value,
+    });
+
+    onSubmit(false);
+  };
+
   return (
     <TodoInputWrapper>
-      <CustomInput placeholder="할 일을 입력해주세용" autoFocus />
-      <CheckBoxWrapper>
-        <CustomCheckBox
-          className="high"
-          labelText="중요해요!"
-          id="high"
-          checked={selectedOption === 'high'}
-          checkHandler={handleCheckEvent}
+      <InsertForm onSubmit={handleSubmit}>
+        <CustomInput
+          autoFocus
+          placeholder="할 일을 입력해주세용"
+          value={value}
+          onChange={e => setValue(e.target.value)}
         />
-        <CustomCheckBox
-          className="low"
-          labelText="여유있어요"
-          id="low"
-          checked={selectedOption === 'low'}
-          checkHandler={handleCheckEvent}
-        />
-      </CheckBoxWrapper>
-      <ButtonWrapper>
-        <AddButton onClick={handleAddButton}>Add</AddButton>
-        <CancelButton onClick={handleCancelButton}>Cancel</CancelButton>
-      </ButtonWrapper>
+        <CheckBoxWrapper>
+          <CustomCheckBox
+            className="high"
+            labelText="중요해요!"
+            id="high"
+            checked={selectedOption === 'high'}
+            checkHandler={handleCheckEvent}
+          />
+          <CustomCheckBox
+            className="low"
+            labelText="여유있어요"
+            id="low"
+            checked={selectedOption === 'low'}
+            checkHandler={handleCheckEvent}
+          />
+        </CheckBoxWrapper>
+        <ButtonWrapper>
+          <AddButton type="submit">Add</AddButton>
+          <CancelButton onClick={handleCancelButton}>Cancel</CancelButton>
+        </ButtonWrapper>
+      </InsertForm>
     </TodoInputWrapper>
   );
 };
@@ -59,6 +80,8 @@ const TodoInputWrapper = styled.div`
   flex-direction: column;
   margin: 1.5rem 0;
 `;
+
+const InsertForm = styled.form``;
 
 const CustomInput = styled.textarea`
   width: 100%;

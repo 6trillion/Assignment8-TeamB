@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import PlusButton from './PlusButton';
-import TodoItem from './TodoItem';
-import TodoInput from './TodoInput';
-import 'styles/reset.css';
+import { useState } from 'react';
+import { PlusButton } from 'components/body';
+import { TodoItem } from 'components/body';
+import { TodoInput } from 'components/body';
 import { ITodo } from 'types/index';
+import styled from 'styled-components';
 
 interface TodoBoardProps {
   title: string;
@@ -33,6 +32,7 @@ function TodoBoard({ title, todolist }: TodoBoardProps) {
         {open && <TodoInput onSubmit={handleTodoInput} />}
         {todolist.map(todo => (
           <TodoItem
+            id={todo.id}
             taskName={todo.taskName}
             status={todo.status}
             createdAt={todo.createdAt}

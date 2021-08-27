@@ -1,10 +1,12 @@
 import { ReactElement, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { STATUS } from 'constants/index';
 import TodoSideTab from 'components/body/TodoSideTab';
 import TodoItemDetail from 'components/body/TodoItemDetail';
+import { useSideTab } from 'utils/useSideTab';
+import { STATUS } from 'constants/index';
+import styled from 'styled-components';
 
 interface TodoItemProps {
+  id: number;
   taskName: string;
   status: string;
   createdAt: string;
@@ -13,6 +15,7 @@ interface TodoItemProps {
 }
 
 function TodoItem({
+  id,
   taskName,
   status,
   createdAt,
@@ -21,11 +24,19 @@ function TodoItem({
 }: TodoItemProps): ReactElement {
   const [statIcon, setStatIcon] = useState('🤍');
   const [importanceIcon, setImportanceIcon] = useState('');
-  const [show, setShow] = useState(false);
+  const {
+    isOpen,
+    setIsOpen,
+    fade,
+    onBackgroundClick,
+    onItemClick,
+    onAnimationEnd,
+  } = useSideTab();
+
   useEffect(() => {
     checkStatus();
     checkImportance();
-  }, []);
+  }, [importance, isOpen]);
 
   const checkStatus = () => {
     switch (status) {
@@ -58,24 +69,25 @@ function TodoItem({
     }
   };
 
-  const handleTitleOnClick = () => {
-    setShow(!show);
-  };
-
   return (
     <>
       <ItemWrapper>
         <ItemStatusIcon>{statIcon}</ItemStatusIcon>
         <ItemContentWrapper>
-          <ItemTitle onClick={handleTitleOnClick}>{taskName}</ItemTitle>
+          <ItemTitle onClick={onItemClick}>{taskName}</ItemTitle>
           <ItemContent>created at {createdAt}</ItemContent>
           <ItemContent>{importanceIcon}</ItemContent>
         </ItemContentWrapper>
       </ItemWrapper>
-      {show && (
+      {isOpen && (
         <>
-          <TodoSideTab>
+          <TodoSideTab
+            fade={fade}
+            setIsOpen={setIsOpen}
+            onAnimationEnd={onAnimationEnd}
+          >
             <TodoItemDetail
+              id={id}
               taskName={taskName}
               status={statIcon}
               createdAt={createdAt}
@@ -83,7 +95,7 @@ function TodoItem({
               importance={importance}
             />
           </TodoSideTab>
-          <BackGround onClick={handleTitleOnClick}></BackGround>
+          <BackGround onClick={onBackgroundClick}></BackGround>
         </>
       )}
     </>
@@ -123,7 +135,7 @@ const ItemContent = styled.div`
   color: #a9a9a9;
 `;
 
-const BackGround = styled.div`
+export const BackGround = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
